@@ -38,5 +38,6 @@ namespace API.Entities
         [StringLength(10)]
         public string ActivInactiv { get; set; }
 
+
     }
 }

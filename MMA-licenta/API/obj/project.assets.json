@@ -3635,11 +3635,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "M:\\LICENTA\\MMA-licenta\\API\\API.csproj",
+      "projectUniqueName": "M:\\LICENTA\\martial-arts-management\\MMA-licenta\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "M:\\LICENTA\\MMA-licenta\\API\\API.csproj",
+      "projectPath": "M:\\LICENTA\\martial-arts-management\\MMA-licenta\\API\\API.csproj",
       "packagesPath": "C:\\Users\\teodo\\.nuget\\packages\\",
-      "outputPath": "M:\\LICENTA\\MMA-licenta\\API\\obj\\",
+      "outputPath": "M:\\LICENTA\\martial-arts-management\\MMA-licenta\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
