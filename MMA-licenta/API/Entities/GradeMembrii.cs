@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace API.Entities
@@ -21,7 +22,10 @@ namespace API.Entities
         public int IdGrad { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public Membru Membru { get; set; }
+
+        [JsonIgnore]
         public Grade Grade { get; set; }
     }
 }
