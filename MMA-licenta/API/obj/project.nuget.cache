@@ -1,14 +1,8 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "rA3nm6y66Tm2cwoaiI2yH6rVCQOoIlinIaTRjDcSaBZWv++ZcCtYA1JLVIVPe+jYv53PNMcObyn3AiKPCCSOKw==",
   "success": true,
   "projectFilePath": "M:\\LICENTA-MMA\\martial-arts-management\\MMA-licenta\\API\\API.csproj",
-=======
-  "dgSpecHash": "yFpFpZZUBR88ZVtLnb/3kVVG7x+/KuedVbC5v68t2909Rx17SFFQrzb1QFSCwk6lSe8AHEbcuDJYV6tOoL/gsQ==",
-  "success": true,
-  "projectFilePath": "M:\\LICENTA\\martial-arts-management\\MMA-licenta\\API\\API.csproj",
->>>>>>> 9bfc4d2f9995d7fd04df3f2d99c5775accc15611
   "expectedPackageFiles": [
     "C:\\Users\\Friptu Teodor\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Friptu Teodor\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
@@ -84,5 +78,12 @@
     "C:\\Users\\Friptu Teodor\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\Friptu Teodor\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file M:\\LICENTA-MMA\\martial-arts-management\\MMA-licenta\\API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

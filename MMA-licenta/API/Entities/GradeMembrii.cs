@@ -13,13 +13,11 @@ namespace API.Entities
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Membru")]
-        public int MembruId { get; set; }
+        public int MembruId { get; set; } //required FK property - Membru
+
+        public int IdGrad { get; set; }   // required FK property - Grade
 
         public DateTime DataObtinerii { get; set; }
-
-        [ForeignKey("Grade")]
-        public int IdGrad { get; set; }
 
         // Navigation properties
         [JsonIgnore]

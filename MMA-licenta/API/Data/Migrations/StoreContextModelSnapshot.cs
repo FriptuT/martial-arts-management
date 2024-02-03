@@ -24,7 +24,6 @@ namespace API.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("NumeGrad")
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdGrad");
@@ -62,37 +61,28 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ActivInactiv")
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
+                    b.Property<bool>("Activ")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DataNasterii")
-                        .HasColumnType("Date");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Gen")
-                        .HasMaxLength(10)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("NrLegitimatie")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nume")
-                        .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Parola")
-                        .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TipMembru")
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("MembruId");
@@ -103,13 +93,13 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.GradeMembrii", b =>
                 {
                     b.HasOne("API.Entities.Grade", "Grade")
-                        .WithMany()
+                        .WithMany("GradeMembrii")
                         .HasForeignKey("IdGrad")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("API.Entities.Membru", "Membru")
-                        .WithMany()
+                        .WithMany("GradeMembrii")
                         .HasForeignKey("MembruId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -117,6 +107,16 @@ namespace API.Data.Migrations
                     b.Navigation("Grade");
 
                     b.Navigation("Membru");
+                });
+
+            modelBuilder.Entity("API.Entities.Grade", b =>
+                {
+                    b.Navigation("GradeMembrii");
+                });
+
+            modelBuilder.Entity("API.Entities.Membru", b =>
+                {
+                    b.Navigation("GradeMembrii");
                 });
 #pragma warning restore 612, 618
         }

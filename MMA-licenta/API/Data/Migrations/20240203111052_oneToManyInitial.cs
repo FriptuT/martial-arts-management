@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class oneToManyInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace API.Data.Migrations
                 {
                     IdGrad = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    NumeGrad = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true)
+                    NumeGrad = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,14 +30,14 @@ namespace API.Data.Migrations
                 {
                     MembruId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    Parola = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    Nume = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    DataNasterii = table.Column<DateTime>(type: "Date", nullable: false),
-                    Gen = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
-                    TipMembru = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    Parola = table.Column<string>(type: "TEXT", nullable: true),
+                    Nume = table.Column<string>(type: "TEXT", nullable: true),
+                    DataNasterii = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Gen = table.Column<string>(type: "TEXT", nullable: true),
+                    TipMembru = table.Column<string>(type: "TEXT", nullable: true),
                     NrLegitimatie = table.Column<int>(type: "INTEGER", nullable: false),
-                    ActivInactiv = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true)
+                    Activ = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,8 +51,8 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     MembruId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DataObtinerii = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IdGrad = table.Column<int>(type: "INTEGER", nullable: false)
+                    IdGrad = table.Column<int>(type: "INTEGER", nullable: false),
+                    DataObtinerii = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
