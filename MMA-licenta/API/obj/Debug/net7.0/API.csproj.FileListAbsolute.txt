@@ -307,10 +307,11 @@ M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\staticwebass
 M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\staticwebassets.build.json
 M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\staticwebassets.development.json
 M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\scopedcss\bundle\API.styles.css
-M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\API.csproj.CopyComplete
 M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\API.dll
 M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\refint\API.dll
 M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\API.pdb
 M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\API.genruntimeconfig.cache
 M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\ref\API.dll
 >>>>>>> 9bfc4d2f9995d7fd04df3f2d99c5775accc15611
+M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\API.sourcelink.json
+M:\LICENTA\martial-arts-management\MMA-licenta\API\obj\Debug\net7.0\API.csproj.Up2Date

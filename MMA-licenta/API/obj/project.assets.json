@@ -3629,23 +3629,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Friptu Teodor\\.nuget\\packages\\": {},
+    "C:\\Users\\teodo\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "M:\\LICENTA-MMA\\martial-arts-management\\MMA-licenta\\API\\API.csproj",
+      "projectUniqueName": "M:\\LICENTA\\martial-arts-management\\MMA-licenta\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "M:\\LICENTA-MMA\\martial-arts-management\\MMA-licenta\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\Friptu Teodor\\.nuget\\packages\\",
-      "outputPath": "M:\\LICENTA-MMA\\martial-arts-management\\MMA-licenta\\API\\obj\\",
+      "projectPath": "M:\\LICENTA\\martial-arts-management\\MMA-licenta\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\teodo\\.nuget\\packages\\",
+      "outputPath": "M:\\LICENTA\\martial-arts-management\\MMA-licenta\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Friptu Teodor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\teodo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3667,6 +3667,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3707,6 +3712,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[7.0.16, 7.0.16]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -3715,16 +3738,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file M:\\LICENTA-MMA\\martial-arts-management\\MMA-licenta\\API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
