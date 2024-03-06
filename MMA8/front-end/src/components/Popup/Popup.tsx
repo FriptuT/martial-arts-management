@@ -7,6 +7,7 @@ import '@fontsource/roboto/700.css';
 
 
 
+
 export default function Popup({ darkMode }) {
     const [showPopup, setShowPopup] = useState(false);
     const textPopup = "Let the hacking begin! *_* ";
@@ -17,7 +18,7 @@ export default function Popup({ darkMode }) {
 
         const timer = setTimeout(() => {
             setShowPopup(false);
-        }, 8000);
+        }, 3000);
 
         return () => clearTimeout(timer);
     }, [darkMode]);

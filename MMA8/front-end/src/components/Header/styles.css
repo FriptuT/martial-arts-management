@@ -1,0 +1,11 @@
+.app h1{
+    color:blue;
+}
+
+.mid{
+    display: flex; 
+}
+
+.right{
+    display: flex;
+}
