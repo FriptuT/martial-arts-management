@@ -6,7 +6,7 @@ export default function HomePage(){
 
     return (
         <>
-            <Typography variant="h1">START</Typography>
+            <Typography variant="h1">LOADING...</Typography>
         </>
     );
 }

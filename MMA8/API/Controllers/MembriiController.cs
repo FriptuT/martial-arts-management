@@ -53,29 +53,25 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMembru(int id, Membru updatedMembru)
         {
-            if(id != updatedMembru.MembruId)
-            {
-                return BadRequest();
+            var existingMember = await context.Membrii.FindAsync(id);
+
+            if(existingMember == null){
+                return NotFound();
             }
 
-            context.Entry(updatedMembru).State = EntityState.Modified;
+            existingMember.Email = updatedMembru.Email;
+            existingMember.Parola = updatedMembru.Parola;
+            existingMember.Nume = updatedMembru.Nume;
+            existingMember.DataNasterii = updatedMembru.DataNasterii;
+            existingMember.Gen = updatedMembru.Gen;
+            existingMember.TipMembru = updatedMembru.TipMembru;
+            existingMember.NrLegitimatie = updatedMembru.NrLegitimatie;
+            existingMember.Activ = updatedMembru.Activ;
 
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) 
-            {
-                if (!context.Membrii.Any(m => m.MembruId == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await context.SaveChangesAsync();
+
             return NoContent();
+
         }
 
         [HttpDelete("{id}")]

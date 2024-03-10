@@ -1,5 +1,5 @@
 export interface Membru{
-    id: number;
+    membruId: number;
     email: string;
     parola: string;
     nume: string;
@@ -8,4 +8,7 @@ export interface Membru{
     tipMembru: string;
     nrLegitimatie: number;
     activ: boolean;
+    varsta: number;
+    poza: string;
 }
+
