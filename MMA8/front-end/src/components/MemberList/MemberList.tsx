@@ -1,27 +1,18 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import agent from "../../app/connApi/agent";
 import { Membru } from "../../app/models/membru";
-
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { memberActions } from "../../store/memberSlice";
 
 
 export default function MemberList() {
-  const [members, setMembers] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentMember, setCurrentMember] = useState<Membru>({
-    membruId: 0,
-    email: '',
-    parola: '',
-    nume: '',
-    dataNasterii: new Date(),
-    gen: '',
-    tipMembru: '',
-    nrLegitimatie: 0,
-    activ: false,
-    varsta: 0,
-    poza: ''
-  });
+  const dispatch = useAppDispatch();
+  const members = useAppSelector((state) => state.member.members);
+  const currentMember = useAppSelector((state) => state.member.currentMember);
+  const open = useAppSelector((state) => state.member.openDialog);
+  const isEditing = useAppSelector((state) => state.member.isEditing);
+  
 
   useEffect(() => {
     loadMembers();
@@ -30,16 +21,16 @@ export default function MemberList() {
   const loadMembers = async () => {
     const fetchedMembers = await agent.Membrii.getAll();
     console.log("members fetched: ", fetchedMembers);
-    setMembers(fetchedMembers);
+    dispatch(memberActions.setMembers(fetchedMembers));
   };
 
   const handleOpen = (member?: Membru) => {
     if (member) {
-      setIsEditing(true);
-      setCurrentMember(member);
+      dispatch(memberActions.setIsEditing(true));
+      dispatch(memberActions.setCurrentMember(member));
     } else {
-      setIsEditing(false);
-      setCurrentMember({
+      dispatch(memberActions.setIsEditing(false));
+      dispatch(memberActions.setCurrentMember({
         membruId: 0,
         email: '',
         parola: '',
@@ -51,14 +42,14 @@ export default function MemberList() {
         activ: false,
         varsta: 0,
         poza: ''
-      });
+      }));
     }
-    setOpen(true);
+    dispatch(memberActions.setOpenDialog(true));
   };
 
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(memberActions.setOpenDialog(false));
   };
 
   const handleChange = (e: any) => {
@@ -71,17 +62,18 @@ export default function MemberList() {
       const ageDate = new Date(ageDiffMs); // miliseconds from epoch
       const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
 
-      setCurrentMember(prev => ({
+
+      dispatch(memberActions.setCurrentMember((prev: Membru) => ({
         ...prev,
         dataNasterii: birthDate,
-        varsta: calculatedAge // Update the age based on the birth date
-      }));
+        varsta: calculatedAge
+      })));
     }
     else {
-      setCurrentMember(prev => ({
+      dispatch(memberActions.setCurrentMember((prev: Membru) => ({
         ...prev,
         [name]: value
-      }));
+      })));
     }
   };
 
@@ -112,10 +104,10 @@ export default function MemberList() {
 
   const handleImageUrlChange = (event: any) => {
     setImageUrl(event.target.value);
-    setCurrentMember(prev => ({
+    dispatch(memberActions.setCurrentMember((prev: Membru) => ({
       ...prev,
       poza: event.target.value // Set the image URL for the current member
-    }));
+    })));
   };
 
 
@@ -262,7 +254,7 @@ export default function MemberList() {
             control={
               <Checkbox
                 checked={currentMember.activ}
-                onChange={e => setCurrentMember({ ...currentMember, activ: e.target.checked })}
+                onChange={e => dispatch(memberActions.setCurrentMember({ ...currentMember, activ: e.target.checked }))}
                 name="activ"
               />
             }
