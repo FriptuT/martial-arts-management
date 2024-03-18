@@ -1,14 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {Membru} from '../app/models/membru';
 
-interface MemberState {
-    members: Membru[];
-    currentMember: Membru;
-    openDialog: boolean;
-    isEditing: boolean;
-}
 
-const initialMemberState: MemberState = {
+const initialMemberState = {
     members: [],
     currentMember: {
         membruId: 0,

@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import agent from "../../app/connApi/agent";
 import { Membru } from "../../app/models/membru";
 import { useAppDispatch, useAppSelector } from "../../store/store";
@@ -58,22 +58,23 @@ export default function MemberList() {
     // Special handling for birth date
     if (name === 'dataNasterii') {
       const birthDate = new Date(value);
+      const isoDateString = birthDate.toISOString().split('T')[0];
       const ageDiffMs = Date.now() - birthDate.getTime();
       const ageDate = new Date(ageDiffMs); // miliseconds from epoch
       const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
 
 
-      dispatch(memberActions.setCurrentMember((prev: Membru) => ({
-        ...prev,
-        dataNasterii: birthDate,
+      dispatch(memberActions.setCurrentMember({
+        ...currentMember,
+        [name]: isoDateString,
         varsta: calculatedAge
-      })));
+      }));
     }
     else {
-      dispatch(memberActions.setCurrentMember((prev: Membru) => ({
-        ...prev,
+      dispatch(memberActions.setCurrentMember({
+        ...currentMember,
         [name]: value
-      })));
+      }));
     }
   };
 
@@ -100,15 +101,15 @@ export default function MemberList() {
   };
 
   // Add picture
-  const [imageUrl, setImageUrl] = useState('');
+  // const [imageUrl, setImageUrl] = useState('');
 
-  const handleImageUrlChange = (event: any) => {
-    setImageUrl(event.target.value);
-    dispatch(memberActions.setCurrentMember((prev: Membru) => ({
-      ...prev,
-      poza: event.target.value // Set the image URL for the current member
-    })));
-  };
+  // const handleImageUrlChange = (event: any) => {
+  //   setImageUrl(event.target.value);
+  //   dispatch(memberActions.setCurrentMember((prev) => ({
+  //     ...prev,
+  //     poza: event.target.value // Set the image URL for the current member
+  //   })));
+  // };
 
 
   // Render member cards with unique images
@@ -241,12 +242,6 @@ export default function MemberList() {
             variant="outlined"
             value={currentMember.varsta}
             onChange={handleChange}
-          />
-          <TextField
-            label="Image URL"
-            variant="outlined"
-            value={imageUrl}
-            onChange={handleImageUrlChange}
           />
           <br />
 
