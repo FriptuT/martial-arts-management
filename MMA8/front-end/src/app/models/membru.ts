@@ -3,7 +3,7 @@ export interface Membru{
     email: string;
     parola: string;
     nume: string;
-    dataNasterii: Date;
+    dataNasterii: string;
     gen: string;
     tipMembru: string;
     nrLegitimatie: number;

@@ -8,7 +8,7 @@ const initialMemberState = {
         email: '',
         parola:'',
         nume: '',
-        dataNasterii: new Date(),
+        dataNasterii: '',
         gen: '',
         tipMembru: '',
         nrLegitimatie: 0,

@@ -12,16 +12,26 @@ export default function MemberList() {
   const currentMember = useAppSelector((state) => state.member.currentMember);
   const open = useAppSelector((state) => state.member.openDialog);
   const isEditing = useAppSelector((state) => state.member.isEditing);
-  
+
 
   useEffect(() => {
     loadMembers();
   }, []);
 
   const loadMembers = async () => {
-    const fetchedMembers = await agent.Membrii.getAll();
-    console.log("members fetched: ", fetchedMembers);
-    dispatch(memberActions.setMembers(fetchedMembers));
+    try {
+      const fetchedMembers = await agent.Membrii.getAll();
+      console.log("members fetched: ", fetchedMembers);
+
+      const serializedMembers = fetchedMembers.map((member: Membru) => ({
+        ...member,
+        dataNasterii: new Date(member.dataNasterii).toISOString(),
+      }));
+
+      dispatch(memberActions.setMembers(serializedMembers));
+    } catch (error) {
+      console.error('Error loading members:', error);
+    }
   };
 
   const handleOpen = (member?: Membru) => {
@@ -35,7 +45,7 @@ export default function MemberList() {
         email: '',
         parola: '',
         nume: '',
-        dataNasterii: new Date(),
+        dataNasterii: '',
         gen: '',
         tipMembru: '',
         nrLegitimatie: 0,
@@ -100,16 +110,6 @@ export default function MemberList() {
 
   };
 
-  // Add picture
-  // const [imageUrl, setImageUrl] = useState('');
-
-  // const handleImageUrlChange = (event: any) => {
-  //   setImageUrl(event.target.value);
-  //   dispatch(memberActions.setCurrentMember((prev) => ({
-  //     ...prev,
-  //     poza: event.target.value // Set the image URL for the current member
-  //   })));
-  // };
 
 
   // Render member cards with unique images
@@ -200,7 +200,11 @@ export default function MemberList() {
             type="date"
             fullWidth
             variant="outlined"
-            value={currentMember.dataNasterii instanceof Date ? currentMember.dataNasterii.toISOString().split('T')[0] : currentMember.dataNasterii}
+            value={currentMember.dataNasterii.split('T')[0]}
+            // value={typeof currentMember.dataNasterii === 'string' ?
+            //   currentMember.dataNasterii.split('T')[0] :
+            //   currentMember.dataNasterii instanceof Date ?
+            //     currentMember.dataNasterii.toISOString().split('T')[0] : ""}
             onChange={handleChange}
           />
           <TextField
