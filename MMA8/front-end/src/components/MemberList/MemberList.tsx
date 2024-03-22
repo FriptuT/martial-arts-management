@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import agent from "../../app/connApi/agent";
 import { Membru } from "../../app/models/membru";
 import { useAppDispatch, useAppSelector } from "../../store/store";
@@ -12,6 +12,7 @@ export default function MemberList() {
   const currentMember = useAppSelector((state) => state.member.currentMember);
   const open = useAppSelector((state) => state.member.openDialog);
   const isEditing = useAppSelector((state) => state.member.isEditing);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -88,9 +89,48 @@ export default function MemberList() {
     }
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if(file){
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result as string);
+        console.log("Selected image:",reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
 
   const handleSave = async (currentMember: Membru) => {
     try {
+      let uploadedImageUrl = '';
+
+      if (selectedImage && selectedImage instanceof File) {
+        const formData = new FormData();
+        formData.append('file', selectedImage, selectedImage.name);
+
+        // upload image and get image URL from backend
+        const response = await agent.Upload.uploadImage(formData);
+
+
+        // Check if the response contains the expected structure
+        if (response.path) {
+          uploadedImageUrl = response.path;
+        } else {
+          console.error('Invalid response format from server:', response);
+          throw new Error('Failed to upload image.');
+        }
+      }
+
+      //set the image URL to the member object
+      dispatch(memberActions.setCurrentMember({
+        ...currentMember,
+        poza: uploadedImageUrl
+      }));
+
+
+
       if (isEditing) {
         await agent.Membrii.editMembru(currentMember.membruId, currentMember);
       } else {
@@ -114,16 +154,19 @@ export default function MemberList() {
 
   // Render member cards with unique images
   const renderMemberCards = () => {
-    return members.map((member: Membru) => (
+    return members.map((member: Membru) => {
+      return(
+
       <Card key={member.membruId} sx={{ display: 'flex', marginBottom: 2 }}>
+
         {member.poza && (
-          <CardMedia
-            component="img"
-            sx={{ width: 151 }}
-            image={member.poza} // Display member's unique image
-            alt="preview"
-          />
-        )}
+        <CardMedia 
+          component="img"
+          src={member.poza}
+          alt="Selected image"
+          height="110"
+          width="100"
+        />)}
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
             {member.nume}
@@ -146,7 +189,8 @@ export default function MemberList() {
           <Button color="secondary" onClick={() => handleDelete(member)}>Delete</Button>
         </CardActions>
       </Card>
-    ));
+      )
+  });
   };
 
 
@@ -172,6 +216,16 @@ export default function MemberList() {
             variant="outlined"
             value={currentMember.nume}
             onChange={handleChange}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            name="poza"
+            label="Poza"
+            type="file"
+            fullWidth
+            variant="outlined"
+            onChange={handleImageChange}
           />
           <TextField
             margin="dense"
@@ -201,10 +255,6 @@ export default function MemberList() {
             fullWidth
             variant="outlined"
             value={currentMember.dataNasterii.split('T')[0]}
-            // value={typeof currentMember.dataNasterii === 'string' ?
-            //   currentMember.dataNasterii.split('T')[0] :
-            //   currentMember.dataNasterii instanceof Date ?
-            //     currentMember.dataNasterii.toISOString().split('T')[0] : ""}
             onChange={handleChange}
           />
           <TextField

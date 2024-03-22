@@ -18,7 +18,7 @@ namespace API.Controllers
                 return BadRequest("Upload a file.");
             }
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", file.FileName );
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", file.FileName );
 
             using (var stream = new FileStream(path, FileMode.Create))
             {

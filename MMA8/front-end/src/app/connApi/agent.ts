@@ -24,12 +24,17 @@ const Membrii = {
     addMembru: (membru: Membru) => requests.post('Membrii', membru), 
     editMembru: (id: number, membru: Membru) => requests.put(`Membrii/${id}`, membru),
     deleteMembru: (id: number) => requests.delete(`Membrii/${id}`)
-}
+};
+
+const Upload = {
+    uploadImage: (file: FormData) => requests.post('Upload', file)
+};
 
 
 const agent = {
     Grade,
-    Membrii
+    Membrii,
+    Upload
 }
 
 export default agent;

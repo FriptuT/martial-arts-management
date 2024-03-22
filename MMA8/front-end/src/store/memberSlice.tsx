@@ -37,6 +37,9 @@ const memberSlice = createSlice({
         setIsEditing: (state, action) => {
             state.isEditing = action.payload;
         },
+        updateMemberPhoto: (state,action) => {
+            state.currentMember.poza = action.payload;
+        }
     },
 });
 
