@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { Membru } from "../models/membru";
+import { Grade } from "../models/grade";
+import { gradeMembru } from "../models/gradeMembru";
 
 axios.defaults.baseURL = "http://localhost:5254/api/";
 
@@ -16,6 +18,16 @@ const requests = {
 const Grade = {
     listAll: () => requests.get("grade"),
     listOne: (id: number) => requests.get(`grade/${id}`),
+    addGrad: (grad: Grade) => requests.post('grade', grad),
+    deleteGrad: (id: number) => requests.delete(`grade/${id}`),
+};
+
+const GradeMembrii = {
+    getAll: () => requests.get("GradeMembrii"),
+    getOne: (id: number) => requests.get(`GradeMembrii/${id}`),
+    addGradMembru: (gradMembru: gradeMembru) => requests.post('GradeMembrii', gradMembru),
+    editGradMembru: (id: number, gradMembru: gradeMembru) => requests.put(`GradeMembrii/${id}`, gradMembru),
+    deleteGradMembru: (id: number) => requests.delete(`GradeMembrii/${id}`)
 };
 
 const Membrii = {
@@ -27,13 +39,14 @@ const Membrii = {
 };
 
 const Upload = {
-    uploadImage: (file: FormData) => requests.post('Upload', file)
+    uploadImage: (file: File) => requests.post('Upload', file)
 };
 
 
 const agent = {
     Grade,
     Membrii,
+    GradeMembrii,
     Upload
 }
 

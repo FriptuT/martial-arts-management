@@ -4821,11 +4821,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "M:\\LICENTA\\martial-arts-management\\MMA8\\API\\API.csproj",
+      "projectUniqueName": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "M:\\LICENTA\\martial-arts-management\\MMA8\\API\\API.csproj",
+      "projectPath": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\API.csproj",
       "packagesPath": "C:\\Users\\teodo\\.nuget\\packages\\",
-      "outputPath": "M:\\LICENTA\\martial-arts-management\\MMA8\\API\\obj\\",
+      "outputPath": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

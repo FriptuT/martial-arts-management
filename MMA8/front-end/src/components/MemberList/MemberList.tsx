@@ -1,9 +1,11 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import agent from "../../app/connApi/agent";
 import { Membru } from "../../app/models/membru";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
+import { Grade } from "../../app/models/grade";
+import { gradeMembru } from "../../app/models/gradeMembru";
 
 
 export default function MemberList() {
@@ -12,12 +14,34 @@ export default function MemberList() {
   const currentMember = useAppSelector((state) => state.member.currentMember);
   const open = useAppSelector((state) => state.member.openDialog);
   const isEditing = useAppSelector((state) => state.member.isEditing);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const grade = useAppSelector((state) => state.member.grade);
+  const gradMembru = useAppSelector((state) => state.member.gradMembru);
+  const grad = useAppSelector((state) => state.member.grad);
+  const selectedGradeId = useAppSelector((state) => state.member.selectedGradeId);
+
+
+  /**
+    SPLIT THIS COMPONENT INTO MORE COMPONENTS !!!
+  */
 
 
   useEffect(() => {
     loadMembers();
+    fetchGrades();
   }, []);
+
+  // useEffect(() => {
+  //   fetchGrades();
+  // }, [])
+
+  const fetchGrades = async () => {
+    try {
+      const gradesData = await agent.Grade.listAll();
+      dispatch(memberActions.setGrade(gradesData))
+    } catch (error) {
+      console.error("Error fetching grades: ", error);
+    }
+  };
 
   const loadMembers = async () => {
     try {
@@ -89,47 +113,23 @@ export default function MemberList() {
     }
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if(file){
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result as string);
-        console.log("Selected image:",reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
 
 
   const handleSave = async (currentMember: Membru) => {
     try {
-      let uploadedImageUrl = '';
+      if (grade && gradMembru) {
 
-      if (selectedImage && selectedImage instanceof File) {
-        const formData = new FormData();
-        formData.append('file', selectedImage, selectedImage.name);
+        const gradMembruData: gradeMembru = {
+          id: gradMembru.id,
+          idMembru: currentMember.membruId,
+          idGrad: gradMembru.idGrad,
+          dataObtinerii: gradMembru.dataObtinerii
+        };
+        console.log(gradMembruData);
 
-        // upload image and get image URL from backend
-        const response = await agent.Upload.uploadImage(formData);
-
-
-        // Check if the response contains the expected structure
-        if (response.path) {
-          uploadedImageUrl = response.path;
-        } else {
-          console.error('Invalid response format from server:', response);
-          throw new Error('Failed to upload image.');
-        }
+        await agent.GradeMembrii.addGradMembru(gradMembruData);
       }
-
-      //set the image URL to the member object
-      dispatch(memberActions.setCurrentMember({
-        ...currentMember,
-        poza: uploadedImageUrl
-      }));
-
-
 
       if (isEditing) {
         await agent.Membrii.editMembru(currentMember.membruId, currentMember);
@@ -155,42 +155,42 @@ export default function MemberList() {
   // Render member cards with unique images
   const renderMemberCards = () => {
     return members.map((member: Membru) => {
-      return(
+      return (
 
-      <Card key={member.membruId} sx={{ display: 'flex', marginBottom: 2 }}>
+        <Card key={member.membruId} sx={{ display: 'flex', marginBottom: 2 }}>
 
-        {member.poza && (
-        <CardMedia 
-          component="img"
-          src={member.poza}
-          alt="Selected image"
-          height="110"
-          width="100"
-        />)}
-        <CardContent sx={{ flex: '1 0 auto' }}>
-          <Typography component="div" variant="h5">
-            {member.nume}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            Age: {member.varsta}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            Gen: {member.gen}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            type: {member.tipMembru}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            Activ: {member.activ ? 'Yes' : 'No'}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button color="primary" onClick={() => handleOpen(member)}>Edit</Button>
-          <Button color="secondary" onClick={() => handleDelete(member)}>Delete</Button>
-        </CardActions>
-      </Card>
+          {member.poza && (
+            <CardMedia
+              component="img"
+              src={member.poza}
+              alt="Selected image"
+              height="110"
+              width="100"
+            />)}
+          <CardContent sx={{ flex: '1 0 auto' }}>
+            <Typography component="div" variant="h5">
+              {member.nume}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary" component="div">
+              Age: {member.varsta}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary" component="div">
+              Gen: {member.gen}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary" component="div">
+              type: {member.tipMembru}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary" component="div">
+              Activ: {member.activ ? 'Yes' : 'No'}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button color="primary" onClick={() => handleOpen(member)}>Edit</Button>
+            <Button color="secondary" onClick={() => handleDelete(member)}>Delete</Button>
+          </CardActions>
+        </Card>
       )
-  });
+    });
   };
 
 
@@ -217,16 +217,7 @@ export default function MemberList() {
             value={currentMember.nume}
             onChange={handleChange}
           />
-          <TextField
-            autoFocus
-            margin="dense"
-            name="poza"
-            label="Poza"
-            type="file"
-            fullWidth
-            variant="outlined"
-            onChange={handleImageChange}
-          />
+
           <TextField
             margin="dense"
             name="email"
@@ -297,6 +288,24 @@ export default function MemberList() {
             value={currentMember.varsta}
             onChange={handleChange}
           />
+          <TextField
+            margin="dense"
+            name="grade"
+            label="Grade"
+            select
+            fullWidth
+            variant="outlined"
+            value={selectedGradeId}
+            onChange={(e) =>
+              dispatch(memberActions.setSelectedGradeId(e.target.value))
+            }
+          >
+            {grade.map((grade: Grade) => (
+              <MenuItem key={grade.id} value={grade.numeGrad}>
+                {grade.numeGrad}
+              </MenuItem>
+            ))}
+          </TextField>
           <br />
 
           <FormControlLabel

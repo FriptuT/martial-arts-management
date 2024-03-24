@@ -1,12 +1,11 @@
-import {createSlice} from '@reduxjs/toolkit';
-
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialMemberState = {
     members: [],
     currentMember: {
         membruId: 0,
         email: '',
-        parola:'',
+        parola: '',
         nume: '',
         dataNasterii: '',
         gen: '',
@@ -18,6 +17,18 @@ const initialMemberState = {
     },
     openDialog: false,
     isEditing: false,
+    gradMembru: {
+        id: 0,
+        idMembru: 0,
+        idGrad: 0,
+        dataObtinerii: ''
+    },
+    grade: [],
+    grad: {
+        id: 0,
+        numeGrad: ''
+    },
+    selectedGradeId: null,
 };
 
 
@@ -25,7 +36,7 @@ const memberSlice = createSlice({
     name: 'member',
     initialState: initialMemberState,
     reducers: {
-        setMembers: (state,action) => {
+        setMembers: (state, action) => {
             state.members = action.payload;
         },
         setCurrentMember: (state, action) => {
@@ -37,8 +48,20 @@ const memberSlice = createSlice({
         setIsEditing: (state, action) => {
             state.isEditing = action.payload;
         },
-        updateMemberPhoto: (state,action) => {
+        updateMemberPhoto: (state, action) => {
             state.currentMember.poza = action.payload;
+        },
+        setGradMembru: (state, action) => {
+            state.gradMembru = action.payload;
+        },
+        setGrade: (state, action) => {
+            state.grade = action.payload;
+        },
+        setGrad: (state, action) => {
+            state.grad = action.payload;
+        },
+        setSelectedGradeId:(state,action) => {
+            state.selectedGradeId = action.payload;
         }
     },
 });
