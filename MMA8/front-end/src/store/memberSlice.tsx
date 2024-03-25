@@ -48,20 +48,11 @@ const memberSlice = createSlice({
         setIsEditing: (state, action) => {
             state.isEditing = action.payload;
         },
-        updateMemberPhoto: (state, action) => {
-            state.currentMember.poza = action.payload;
-        },
         setGradMembru: (state, action) => {
             state.gradMembru = action.payload;
         },
         setGrade: (state, action) => {
             state.grade = action.payload;
-        },
-        setGrad: (state, action) => {
-            state.grad = action.payload;
-        },
-        setSelectedGradeId:(state,action) => {
-            state.selectedGradeId = action.payload;
         }
     },
 });

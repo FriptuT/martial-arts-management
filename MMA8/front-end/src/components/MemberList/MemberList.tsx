@@ -1,11 +1,12 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Button, Container } from "@mui/material";
+import { useEffect } from "react";
 import agent from "../../app/connApi/agent";
 import { Membru } from "../../app/models/membru";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
-import { Grade } from "../../app/models/grade";
 import { gradeMembru } from "../../app/models/gradeMembru";
+import MemberCard from "../MemberCard/MemberCard";
+import MemberDialog from "../MemberDialog/MemberDialog";
 
 
 export default function MemberList() {
@@ -16,13 +17,6 @@ export default function MemberList() {
   const isEditing = useAppSelector((state) => state.member.isEditing);
   const grade = useAppSelector((state) => state.member.grade);
   const gradMembru = useAppSelector((state) => state.member.gradMembru);
-  const grad = useAppSelector((state) => state.member.grad);
-  const selectedGradeId = useAppSelector((state) => state.member.selectedGradeId);
-
-
-  /**
-    SPLIT THIS COMPONENT INTO MORE COMPONENTS !!!
-  */
 
 
   useEffect(() => {
@@ -30,9 +24,6 @@ export default function MemberList() {
     fetchGrades();
   }, []);
 
-  // useEffect(() => {
-  //   fetchGrades();
-  // }, [])
 
   const fetchGrades = async () => {
     try {
@@ -118,19 +109,7 @@ export default function MemberList() {
 
   const handleSave = async (currentMember: Membru) => {
     try {
-      if (grade && gradMembru) {
-
-        const gradMembruData: gradeMembru = {
-          id: gradMembru.id,
-          idMembru: currentMember.membruId,
-          idGrad: gradMembru.idGrad,
-          dataObtinerii: gradMembru.dataObtinerii
-        };
-        console.log(gradMembruData);
-
-        await agent.GradeMembrii.addGradMembru(gradMembruData);
-      }
-
+      
       if (isEditing) {
         await agent.Membrii.editMembru(currentMember.membruId, currentMember);
       } else {
@@ -150,182 +129,32 @@ export default function MemberList() {
 
   };
 
-
-
-  // Render member cards with unique images
-  const renderMemberCards = () => {
-    return members.map((member: Membru) => {
-      return (
-
-        <Card key={member.membruId} sx={{ display: 'flex', marginBottom: 2 }}>
-
-          {member.poza && (
-            <CardMedia
-              component="img"
-              src={member.poza}
-              alt="Selected image"
-              height="110"
-              width="100"
-            />)}
-          <CardContent sx={{ flex: '1 0 auto' }}>
-            <Typography component="div" variant="h5">
-              {member.nume}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              Age: {member.varsta}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              Gen: {member.gen}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              type: {member.tipMembru}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              Activ: {member.activ ? 'Yes' : 'No'}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button color="primary" onClick={() => handleOpen(member)}>Edit</Button>
-            <Button color="secondary" onClick={() => handleDelete(member)}>Delete</Button>
-          </CardActions>
-        </Card>
-      )
-    });
-  };
-
-
-
   return (
     <Container>
       <Button variant="contained" color="primary" onClick={() => handleOpen()}>
         Add Member
       </Button>
 
-      {renderMemberCards()}
+      {members.map((member: Membru) => (
+        <MemberCard
+          key={member.membruId}
+          member={member}
+          onEdit={handleOpen}
+          onDelete={handleDelete}
+        />
+      ))}
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{isEditing ? 'Edit Member' : 'Add Member'}</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            name="nume"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={currentMember.nume}
-            onChange={handleChange}
-          />
-
-          <TextField
-            margin="dense"
-            name="email"
-            label="Email"
-            type="email"
-            fullWidth
-            variant="outlined"
-            value={currentMember.email}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="parola"
-            label="Password"
-            type="password"
-            fullWidth
-            variant="outlined"
-            value={currentMember.parola}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="dataNasterii"
-            label="Birth Date"
-            type="date"
-            fullWidth
-            variant="outlined"
-            value={currentMember.dataNasterii.split('T')[0]}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="gen"
-            label="Gender"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={currentMember.gen}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="tipMembru"
-            label="Membership Type"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={currentMember.tipMembru}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="nrLegitimatie"
-            label="Membership ID"
-            type="number"
-            fullWidth
-            variant="outlined"
-            value={currentMember.nrLegitimatie}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="varsta"
-            label="Age"
-            type="number"
-            fullWidth
-            variant="outlined"
-            value={currentMember.varsta}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            name="grade"
-            label="Grade"
-            select
-            fullWidth
-            variant="outlined"
-            value={selectedGradeId}
-            onChange={(e) =>
-              dispatch(memberActions.setSelectedGradeId(e.target.value))
-            }
-          >
-            {grade.map((grade: Grade) => (
-              <MenuItem key={grade.id} value={grade.numeGrad}>
-                {grade.numeGrad}
-              </MenuItem>
-            ))}
-          </TextField>
-          <br />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={currentMember.activ}
-                onChange={e => dispatch(memberActions.setCurrentMember({ ...currentMember, activ: e.target.checked }))}
-                name="activ"
-              />
-            }
-            label="Active"
-          />
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={() => handleSave(currentMember)}>{isEditing ? 'Save Changes' : 'Add Member'}</Button>
-        </DialogActions>
-      </Dialog>
+      <MemberDialog
+        open={open}
+        handleClose={handleClose}
+        handleChange={handleChange}
+        handleSave={handleSave}
+        isEditing={isEditing}
+        currentMember={currentMember}
+      />
     </Container>
+
   );
+
 
 }
