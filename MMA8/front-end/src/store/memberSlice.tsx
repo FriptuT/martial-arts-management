@@ -16,19 +16,7 @@ const initialMemberState = {
         poza: ''
     },
     openDialog: false,
-    isEditing: false,
-    gradMembru: {
-        id: 0,
-        idMembru: 0,
-        idGrad: 0,
-        dataObtinerii: ''
-    },
-    grade: [],
-    grad: {
-        id: 0,
-        numeGrad: ''
-    },
-    selectedGradeId: null,
+    isEditing: false
 };
 
 
@@ -47,12 +35,6 @@ const memberSlice = createSlice({
         },
         setIsEditing: (state, action) => {
             state.isEditing = action.payload;
-        },
-        setGradMembru: (state, action) => {
-            state.gradMembru = action.payload;
-        },
-        setGrade: (state, action) => {
-            state.grade = action.payload;
         }
     },
 });

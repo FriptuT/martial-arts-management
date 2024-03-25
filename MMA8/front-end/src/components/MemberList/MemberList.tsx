@@ -4,7 +4,6 @@ import agent from "../../app/connApi/agent";
 import { Membru } from "../../app/models/membru";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
-import { gradeMembru } from "../../app/models/gradeMembru";
 import MemberCard from "../MemberCard/MemberCard";
 import MemberDialog from "../MemberDialog/MemberDialog";
 
@@ -15,24 +14,13 @@ export default function MemberList() {
   const currentMember = useAppSelector((state) => state.member.currentMember);
   const open = useAppSelector((state) => state.member.openDialog);
   const isEditing = useAppSelector((state) => state.member.isEditing);
-  const grade = useAppSelector((state) => state.member.grade);
-  const gradMembru = useAppSelector((state) => state.member.gradMembru);
 
 
   useEffect(() => {
     loadMembers();
-    fetchGrades();
+    // fetchGrades();
   }, []);
 
-
-  const fetchGrades = async () => {
-    try {
-      const gradesData = await agent.Grade.listAll();
-      dispatch(memberActions.setGrade(gradesData))
-    } catch (error) {
-      console.error("Error fetching grades: ", error);
-    }
-  };
 
   const loadMembers = async () => {
     try {
@@ -109,7 +97,7 @@ export default function MemberList() {
 
   const handleSave = async (currentMember: Membru) => {
     try {
-      
+
       if (isEditing) {
         await agent.Membrii.editMembru(currentMember.membruId, currentMember);
       } else {
