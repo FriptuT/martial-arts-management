@@ -1,27 +1,48 @@
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField } from "@mui/material";
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, MenuItem, TextField } from "@mui/material";
 import { Membru } from "../../app/models/membru";
 import { useAppDispatch } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
+import { useEffect, useState } from "react";
+import agent from "../../app/connApi/agent";
+import { Grade } from "../../app/models/grade";
 
 interface MemberDialogProps {
     open: boolean;
     currentMember: Membru;
     handleClose: () => void;
-    handleSave: (currentMember: Membru) => void;
+    handleSave: (currentMember: Membru, selectedGradeId: string) => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     isEditing: boolean;
+    grad: Grade;
 }
 
-export default function MemberDialog({ open, handleClose, handleChange, handleSave, isEditing, currentMember }: MemberDialogProps) {
+export default function MemberDialog({ open, handleClose, handleChange, handleSave, isEditing, currentMember, grad }: MemberDialogProps) {
 
     const dispatch = useAppDispatch();
+
+    const [grades, setGrades] = useState([]);
+    const [selectedGradeId, setSelectedGradeId] = useState('');
+
+    useEffect(() => {
+        const fetchGrades = async () => {
+            const fetchedGrades = await agent.Grade.listAll();
+            console.log("centuri: ",fetchedGrades);
+            setGrades(fetchedGrades);
+        }
+
+        fetchGrades();
+    }, []);
+
+    const handleGradeChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+        const {value} = event.target;
+        setSelectedGradeId(value as string);
+    };
 
 
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>{isEditing ? 'Edit Member' : 'Add Member'}</DialogTitle>
             <DialogContent>
-                {/* Form inputs here, similar to the existing ones in the provided MemberList component */}
 
                 <TextField
                     autoFocus
@@ -104,6 +125,21 @@ export default function MemberDialog({ open, handleClose, handleChange, handleSa
                     onChange={handleChange}
                 />
 
+                <TextField
+                    select
+                    label="Grade"
+                    name="idGrad"
+                    value={selectedGradeId}
+                    onChange={handleGradeChange}            //////// incearca implementarea onChange={handleChange}
+                    fullWidth
+                >
+                    {grades.map((grade: Grade) => (
+                        <MenuItem key={grade.idGrad} value={String(grade.idGrad)}>
+                            {grade.numeGrad}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
 
                 {/* Add other fields here */}
                 <FormControlLabel
@@ -119,7 +155,7 @@ export default function MemberDialog({ open, handleClose, handleChange, handleSa
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={() => handleSave(currentMember)}>{isEditing ? 'Save Changes' : 'Add Member'}</Button>
+                <Button onClick={() => handleSave(currentMember, selectedGradeId)}>{isEditing ? 'Save Changes' : 'Add Member'}</Button>
             </DialogActions>
         </Dialog>
     );

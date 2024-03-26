@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
 import MemberCard from "../MemberCard/MemberCard";
 import MemberDialog from "../MemberDialog/MemberDialog";
+import { Grade } from "../../app/models/grade";
+import { gradeMembru } from "../../app/models/gradeMembru";
 
 
 export default function MemberList() {
@@ -14,7 +16,10 @@ export default function MemberList() {
   const currentMember = useAppSelector((state) => state.member.currentMember);
   const open = useAppSelector((state) => state.member.openDialog);
   const isEditing = useAppSelector((state) => state.member.isEditing);
+  const grades = useAppSelector((state) => state.member.grades);
+  const grad = useAppSelector((state) => state.member.grad);
 
+  
 
   useEffect(() => {
     loadMembers();
@@ -27,12 +32,21 @@ export default function MemberList() {
       const fetchedMembers = await agent.Membrii.getAll();
       console.log("members fetched: ", fetchedMembers);
 
+      const gradeAssociations = await agent.GradeMembrii.getAll();
+      console.log("grade-membrii", gradeAssociations);
+
       const serializedMembers = fetchedMembers.map((member: Membru) => ({
         ...member,
         dataNasterii: new Date(member.dataNasterii).toISOString(),
       }));
 
-      dispatch(memberActions.setMembers(serializedMembers));
+      const membersWithGrades = serializedMembers.map((member: Membru) => {
+        const gradeAssociation = gradeAssociations.find((ga: gradeMembru) => ga.idMembru === member.membruId);
+        const grade = grades.find((g: Grade) => g.idGrad === gradeAssociation?.idGrad);
+        return { ...member, grade};
+      });
+
+      dispatch(memberActions.setMembers(membersWithGrades));
     } catch (error) {
       console.error('Error loading members:', error);
     }
@@ -42,6 +56,7 @@ export default function MemberList() {
     if (member) {
       dispatch(memberActions.setIsEditing(true));
       dispatch(memberActions.setCurrentMember(member));
+      // dispatch(memberActions.setGrad(grad));
     } else {
       dispatch(memberActions.setIsEditing(false));
       dispatch(memberActions.setCurrentMember({
@@ -57,6 +72,11 @@ export default function MemberList() {
         varsta: 0,
         poza: ''
       }));
+      // dispatch(memberActions.setGrad({
+      //   idGrad: 0,
+      //   numeGrad: ''
+      // }));
+      /////////////////////////////////// aici posibil sa setam gradul 
     }
     dispatch(memberActions.setOpenDialog(true));
   };
@@ -89,20 +109,36 @@ export default function MemberList() {
         ...currentMember,
         [name]: value
       }));
+      dispatch(memberActions.setGrad({      ////////////last_commit, fa legatura intre Membru si Grade
+        ...grad,
+        [name]: value
+      }));
     }
   };
 
 
 
 
-  const handleSave = async (currentMember: Membru) => {
+  const handleSaveWithGrade = async (currentMember: Membru, gradMembru: gradeMembru, grade: Grade) => {
     try {
-
+      let savedMember;
       if (isEditing) {
-        await agent.Membrii.editMembru(currentMember.membruId, currentMember);
+        savedMember = await agent.Membrii.editMembru(currentMember.membruId, currentMember);
+        await agent.GradeMembrii.editGradMembru(gradMembru.id, gradMembru);
       } else {
-        await agent.Membrii.addMembru(currentMember);
+        savedMember = await agent.Membrii.addMembru(currentMember);
       }
+
+      if (gradMembru.id) {
+        await agent.GradeMembrii.addGradMembru({
+          id: gradMembru.id,
+          idMembru: savedMember.membruId,
+          idGrad: grade.idGrad,
+          dataObtinerii: new Date().toISOString(),
+        });
+      }
+
+
       await loadMembers(); // Ensure that members are reloaded after saving
       handleClose();
     } catch (error) {
@@ -125,20 +161,24 @@ export default function MemberList() {
 
       {members.map((member: Membru) => (
         <MemberCard
+          grade={grades}
           key={member.membruId}
           member={member}
           onEdit={handleOpen}
           onDelete={handleDelete}
         />
+
       ))}
 
       <MemberDialog
+        grad={grad}
         open={open}
         handleClose={handleClose}
         handleChange={handleChange}
-        handleSave={handleSave}
+        handleSave={handleSaveWithGrade}
         isEditing={isEditing}
         currentMember={currentMember}
+
       />
     </Container>
 

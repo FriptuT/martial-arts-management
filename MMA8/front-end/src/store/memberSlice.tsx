@@ -16,7 +16,12 @@ const initialMemberState = {
         poza: ''
     },
     openDialog: false,
-    isEditing: false
+    isEditing: false,
+    grades: [],
+    grad: {
+        idGrad: 0,
+        numeGrad: ''
+    }
 };
 
 
@@ -35,6 +40,12 @@ const memberSlice = createSlice({
         },
         setIsEditing: (state, action) => {
             state.isEditing = action.payload;
+        },
+        setGrades: (state, action) => {
+            state.grades = action.payload;
+        },
+        setGrad: (state,action) => {
+            state.grad = action.payload;
         }
     },
 });

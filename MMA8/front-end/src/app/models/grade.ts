@@ -1,4 +1,4 @@
 export interface Grade{
-    id: number;
+    idGrad: number;
     numeGrad: string;
 }
