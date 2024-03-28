@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "bUm1vPqwZHJejLhtNIB7WgmMI8ngxypkYrDApg4MvgQ=",
+  "Hash": "nUy9abDMElRl7AO6jEA3J5wTbvQaFjWhQbXMyf+z40E=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "API\\wwwroot",
+      "Source": "API",
+      "ContentRoot": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\wwwroot\\uploads\\teodor.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "uploads/teodor.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\teodor.jpg"
+    }
+  ]
 }

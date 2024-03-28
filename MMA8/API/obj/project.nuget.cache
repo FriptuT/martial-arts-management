@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "dM502/cTbTqYni/ZSMK1oFW1sybMGz/CdAfXNULtv7aCHvvDUDjAAoBMUlHUrf1t2vAREiBgs8UpmSb3S2TOfA==",
   "success": true,
   "projectFilePath": "M:\\LICENTA-MMA\\martial-arts-management\\MMA8\\API\\API.csproj",
+=======
+  "dgSpecHash": "hbOlSUAFB6ZmPr2OflUhPpyKtxfeYIhbVxaWMUAor8NlsxVnFWhuKrfLjKIc7BbUUDHcuB6IEl+XLtx3f2LrCQ==",
+  "success": true,
+  "projectFilePath": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\API.csproj",
+>>>>>>> 790b3e2b825fc06d786a7342738d374478ab59f5
   "expectedPackageFiles": [
     "C:\\Users\\Friptu Teodor\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Friptu Teodor\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

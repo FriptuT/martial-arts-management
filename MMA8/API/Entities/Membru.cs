@@ -28,6 +28,10 @@ namespace API.Entities
 
         public bool Activ { get; set; }
 
+        public string Poza { get; set; }
+
+        public int Varsta { get; set; }
+
         // nav prop for one-to-many
         [JsonIgnore]
         public ICollection<GradeMembrii> GradeMembrii {get; set;}
