@@ -1,9 +1,7 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Members from "../components/MemberList/MemberList";
 import HomePage from "../components/HomePage/HomePage";
 import MemberDetails from "../components/MemberDetails/MemberDetails";
-import MemberForm from "../components/MemberList/MemberList";
 import MemberList from "../components/MemberList/MemberList";
 
 

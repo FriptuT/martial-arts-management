@@ -6,8 +6,6 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
 import MemberCard from "../MemberCard/MemberCard";
 import MemberDialog from "../MemberDialog/MemberDialog";
-import { Grade } from "../../app/models/grade";
-import { gradeMembru } from "../../app/models/gradeMembru";
 
 
 export default function MemberList() {
@@ -17,13 +15,12 @@ export default function MemberList() {
   const open = useAppSelector((state) => state.member.openDialog);
   const isEditing = useAppSelector((state) => state.member.isEditing);
   const grades = useAppSelector((state) => state.member.grades);
-  const grad = useAppSelector((state) => state.member.grad);
+  const grad = useAppSelector((state) => state.member.currentMember.grad);
 
   
 
   useEffect(() => {
     loadMembers();
-    // fetchGrades();
   }, []);
 
 
@@ -32,21 +29,22 @@ export default function MemberList() {
       const fetchedMembers = await agent.Membrii.getAll();
       console.log("members fetched: ", fetchedMembers);
 
-      const gradeAssociations = await agent.GradeMembrii.getAll();
-      console.log("grade-membrii", gradeAssociations);
+      // const gradeAssociations = await agent.Grade.listAll();
+      // console.log("grade-membrii", gradeAssociations);
 
       const serializedMembers = fetchedMembers.map((member: Membru) => ({
         ...member,
         dataNasterii: new Date(member.dataNasterii).toISOString(),
       }));
 
-      const membersWithGrades = serializedMembers.map((member: Membru) => {
-        const gradeAssociation = gradeAssociations.find((ga: gradeMembru) => ga.idMembru === member.membruId);
-        const grade = grades.find((g: Grade) => g.idGrad === gradeAssociation?.idGrad);
-        return { ...member, grade};
-      });
+      // const membersWithGrades = serializedMembers.map((member: Membru) => {
+      //   const gradeAssociation = gradeAssociations.find((ga: gradeMembru) => ga.idMembru === member.membruId);
+      //   const grade = grades.find((g: Grade) => g.idGrad === gradeAssociation?.idGrad);
+      //   return { ...member, grade};
+      // });
+      // console.log(membersWithGrades);
 
-      dispatch(memberActions.setMembers(membersWithGrades));
+      dispatch(memberActions.setMembers(serializedMembers));
     } catch (error) {
       console.error('Error loading members:', error);
     }
@@ -70,13 +68,12 @@ export default function MemberList() {
         nrLegitimatie: 0,
         activ: false,
         varsta: 0,
-        poza: ''
-      }));
-      // dispatch(memberActions.setGrad({
-      //   idGrad: 0,
-      //   numeGrad: ''
-      // }));
-      /////////////////////////////////// aici posibil sa setam gradul 
+        poza: '',
+        grad:{
+          idGrad: 0,
+          numeGrad: ''
+        }
+      })); 
     }
     dispatch(memberActions.setOpenDialog(true));
   };
@@ -109,35 +106,19 @@ export default function MemberList() {
         ...currentMember,
         [name]: value
       }));
-      dispatch(memberActions.setGrad({      ////////////last_commit, fa legatura intre Membru si Grade
-        ...grad,
-        [name]: value
-      }));
     }
   };
 
 
 
 
-  const handleSaveWithGrade = async (currentMember: Membru, gradMembru: gradeMembru, grade: Grade) => {
+  const handleSaveWithGrade = async (currentMember: Membru) => {
     try {
-      let savedMember;
       if (isEditing) {
-        savedMember = await agent.Membrii.editMembru(currentMember.membruId, currentMember);
-        await agent.GradeMembrii.editGradMembru(gradMembru.id, gradMembru);
+        await agent.Membrii.editMembru(currentMember.membruId, currentMember);
       } else {
-        savedMember = await agent.Membrii.addMembru(currentMember);
+        await agent.Membrii.addMembru(currentMember);
       }
-
-      if (gradMembru.id) {
-        await agent.GradeMembrii.addGradMembru({
-          id: gradMembru.id,
-          idMembru: savedMember.membruId,
-          idGrad: grade.idGrad,
-          dataObtinerii: new Date().toISOString(),
-        });
-      }
-
 
       await loadMembers(); // Ensure that members are reloaded after saving
       handleClose();
@@ -161,7 +142,6 @@ export default function MemberList() {
 
       {members.map((member: Membru) => (
         <MemberCard
-          grade={grades}
           key={member.membruId}
           member={member}
           onEdit={handleOpen}

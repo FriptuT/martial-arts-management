@@ -1,6 +1,6 @@
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, MenuItem, TextField } from "@mui/material";
 import { Membru } from "../../app/models/membru";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
 import { useEffect, useState } from "react";
 import agent from "../../app/connApi/agent";
@@ -20,14 +20,14 @@ export default function MemberDialog({ open, handleClose, handleChange, handleSa
 
     const dispatch = useAppDispatch();
 
-    const [grades, setGrades] = useState([]);
     const [selectedGradeId, setSelectedGradeId] = useState('');
+    const grades = useAppSelector((state) => state.member.grades);
 
     useEffect(() => {
         const fetchGrades = async () => {
             const fetchedGrades = await agent.Grade.listAll();
             console.log("centuri: ",fetchedGrades);
-            setGrades(fetchedGrades);
+            dispatch(memberActions.setGrades(fetchedGrades));
         }
 
         fetchGrades();
@@ -130,7 +130,7 @@ export default function MemberDialog({ open, handleClose, handleChange, handleSa
                     label="Grade"
                     name="idGrad"
                     value={selectedGradeId}
-                    onChange={handleGradeChange}            //////// incearca implementarea onChange={handleChange}
+                    onChange={handleGradeChange}            
                     fullWidth
                 >
                     {grades.map((grade: Grade) => (

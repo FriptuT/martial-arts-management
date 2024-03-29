@@ -1,16 +1,14 @@
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import { Membru } from "../../app/models/membru";
-import { Grade } from "../../app/models/grade";
 
 interface MemberCardProps {
     member: Membru;
     onEdit: (member: Membru) => void;
     onDelete: (member: Membru) => void;
-    grade: Grade;
 }
 
 
-export default function MemberCard({ member, onEdit, onDelete, grade }: MemberCardProps) {
+export default function MemberCard({ member, onEdit, onDelete }: MemberCardProps) {
 
     
 
@@ -33,7 +31,7 @@ export default function MemberCard({ member, onEdit, onDelete, grade }: MemberCa
                     Active: {member.activ ? 'Yes' : 'No'}
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary" component="div">
-                    Centura: {grade.numeGrad}
+                    Centura:
                 </Typography>
             </CardContent>
 
