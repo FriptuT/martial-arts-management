@@ -1,6 +1,8 @@
 version: '3.8'
+
 services:
   api:
+    image: dotnet-play
     build:
       context: ./API
       dockerfile: Dockerfile
@@ -8,14 +10,12 @@ services:
       - "5254:5254"
     depends_on:
       - db
-  db:
-    image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
-      SA_PASSWORD: "Sa123456$"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MMA;User=sa;Password=Sa123456$;TrustServerCertificate=true;
+      - ASPNETCORE_HTTP_PORTS=5254
+
   front-end:
+    image: react-front
     build:
       context: ./front-end
       dockerfile: Dockerfile
@@ -23,3 +23,18 @@ services:
       - "5173:5173"
     depends_on:
       - api
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      SA_PASSWORD: "Sa123456$"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes:
+      - MMAdb:/var/opt/mssql/data
+    user: root 
+
+volumes:
+  MMAdb:
+    driver: local
