@@ -489,3 +489,4 @@ M:\GitHub Repositories\LICENTA\martial-arts-management\MMA8\API\obj\Debug\net8.0
 M:\GitHub Repositories\LICENTA\martial-arts-management\MMA8\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 M:\GitHub Repositories\LICENTA\martial-arts-management\MMA8\API\obj\Debug\net8.0\ref\API.dll
 >>>>>>> 790b3e2b825fc06d786a7342738d374478ab59f5
+M:\LICENTA-MMA\martial-arts-management\MMA8\API\bin\Debug\net8.0\API.staticwebassets.runtime.json
