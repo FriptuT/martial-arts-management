@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using API.Extensions;
+using API.RequestHelpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,9 +24,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Membru>>> GetMembrii()
+        public async Task<ActionResult<PagedList<Membru>>> GetMembrii(MemberParams memberParams)
         {
-            return await context.Membrii.ToListAsync();
+            var query = context.Membrii
+            .Sort(memberParams.OrderBy)
+            .Search(memberParams.SearchTerm)
+            .AsQueryable();
+
+            var members = await PagedList<Membru>.ToPagedList(query, memberParams.PageNumber, memberParams.PageSize);
+
+            Response.Headers.Append("Pagination", JsonSerializer.Serialize(members.MetaData));
+
+            return members;
+
         }
 
         [HttpGet("{id}")]

@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import memberSlice from "./memberSlice";
+import gradeMembriiSlice from "./gradeMembriiSlice";
 
 const store = configureStore({
     reducer: {
-        member: memberSlice
+        member: memberSlice,
+        gradeMembrii: gradeMembriiSlice
     }
 })
 

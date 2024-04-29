@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace API.Entities
 {
@@ -12,9 +8,9 @@ namespace API.Entities
         [Key]
         public int Id { get; set; }
 
-        public int MembruId { get; set; } //required FK property - Membru
+        public int MembruId { get; set; } //required FK  - Membru
 
-        public int IdGrad { get; set; }   // required FK property - Grade
+        public int IdGrad { get; set; }   // required FK - Grade
 
         public DateTime DataObtinerii { get; set; }
 

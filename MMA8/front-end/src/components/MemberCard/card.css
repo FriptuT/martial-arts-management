@@ -1,0 +1,10 @@
+.nav-link-button {
+    padding: 8px 19px;
+    background-color: rgb(99, 99, 243);
+    color: white;
+    text-align: center;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+  }

@@ -6,43 +6,46 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
 import MemberCard from "../MemberCard/MemberCard";
 import MemberDialog from "../MemberDialog/MemberDialog";
+import { gradeMembriiActions } from "../../store/gradeMembriiSlice";
+
 
 
 export default function MemberList() {
   const dispatch = useAppDispatch();
-  const members = useAppSelector((state) => state.member.members);
+  const members: Membru[] = useAppSelector((state) => state.member.members);
   const currentMember = useAppSelector((state) => state.member.currentMember);
   const open = useAppSelector((state) => state.member.openDialog);
   const isEditing = useAppSelector((state) => state.member.isEditing);
-  const grades = useAppSelector((state) => state.member.grades);
-  const grad = useAppSelector((state) => state.member.currentMember.grad);
 
   
 
+  // hook pentru incarcarea gradelor si a membrilor
   useEffect(() => {
     loadMembers();
+    loadGrades();
   }, []);
 
+  // functie pentru incarcarea gradelor
+  const loadGrades = async () => {
+    try{
+      const fetchedGrades = await agent.Grades.listAll();
+      console.log("MemberList - grade: ", fetchedGrades);
+      dispatch(gradeMembriiActions.setGrades(fetchedGrades));
+    } catch(error){
+      console.log('Error loading grades:' ,error);
+    }
+  }
 
+  // functie pentru incarcarea membrilor
   const loadMembers = async () => {
     try {
       const fetchedMembers = await agent.Membrii.getAll();
       console.log("members fetched: ", fetchedMembers);
-
-      // const gradeAssociations = await agent.Grade.listAll();
-      // console.log("grade-membrii", gradeAssociations);
-
+      
       const serializedMembers = fetchedMembers.map((member: Membru) => ({
         ...member,
         dataNasterii: new Date(member.dataNasterii).toISOString(),
       }));
-
-      // const membersWithGrades = serializedMembers.map((member: Membru) => {
-      //   const gradeAssociation = gradeAssociations.find((ga: gradeMembru) => ga.idMembru === member.membruId);
-      //   const grade = grades.find((g: Grade) => g.idGrad === gradeAssociation?.idGrad);
-      //   return { ...member, grade};
-      // });
-      // console.log(membersWithGrades);
 
       dispatch(memberActions.setMembers(serializedMembers));
     } catch (error) {
@@ -50,11 +53,11 @@ export default function MemberList() {
     }
   };
 
+  // functie pentru deschiderea modalului
   const handleOpen = (member?: Membru) => {
     if (member) {
       dispatch(memberActions.setIsEditing(true));
       dispatch(memberActions.setCurrentMember(member));
-      // dispatch(memberActions.setGrad(grad));
     } else {
       dispatch(memberActions.setIsEditing(false));
       dispatch(memberActions.setCurrentMember({
@@ -68,25 +71,23 @@ export default function MemberList() {
         nrLegitimatie: 0,
         activ: false,
         varsta: 0,
-        poza: '',
-        grad:{
-          idGrad: 0,
-          numeGrad: ''
-        }
+        poza: ''
       })); 
     }
     dispatch(memberActions.setOpenDialog(true));
   };
 
 
+  // functie pentru inchiderea modalului
   const handleClose = () => {
     dispatch(memberActions.setOpenDialog(false));
   };
 
+  // functie pentru cand un camp din modal sufera schimbari
   const handleChange = (e: any) => {
     const { name, value } = e.target;
 
-    // Special handling for birth date
+    // calcularea varstei
     if (name === 'dataNasterii') {
       const birthDate = new Date(value);
       const isoDateString = birthDate.toISOString().split('T')[0];
@@ -109,9 +110,8 @@ export default function MemberList() {
     }
   };
 
-
-
-
+  // functie pentru salvarea modalului cu input-ul respectiv
+  // si implicit trimiterea acestora catre server
   const handleSaveWithGrade = async (currentMember: Membru) => {
     try {
       if (isEditing) {
@@ -127,6 +127,7 @@ export default function MemberList() {
     }
   };
 
+  // functie pentru stergerea unui membru
   const handleDelete = async (member: Membru) => {
     console.log("Deleting member with ID: ", member.membruId);
     await agent.Membrii.deleteMembru(member.membruId);
@@ -140,6 +141,7 @@ export default function MemberList() {
         Add Member
       </Button>
 
+        
       {members.map((member: Membru) => (
         <MemberCard
           key={member.membruId}
@@ -149,16 +151,15 @@ export default function MemberList() {
         />
 
       ))}
-
+    
+    
       <MemberDialog
-        grad={grad}
         open={open}
         handleClose={handleClose}
         handleChange={handleChange}
         handleSave={handleSaveWithGrade}
         isEditing={isEditing}
         currentMember={currentMember}
-
       />
     </Container>
 

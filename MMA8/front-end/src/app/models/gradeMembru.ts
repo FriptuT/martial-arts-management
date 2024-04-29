@@ -1,6 +1,6 @@
 export interface gradeMembru{
     id: number;
-    idMembru: number;
+    membruId: number;
     idGrad: number;
     dataObtinerii: string;
 }

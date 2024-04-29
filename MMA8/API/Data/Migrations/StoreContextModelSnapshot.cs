@@ -4,19 +4,16 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace API.Migrations
+namespace API.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240310123745_AddPozaVarsta")]
-    partial class AddPozaVarsta
+    partial class StoreContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,6 +49,9 @@ namespace API.Migrations
                     b.Property<DateTime>("DataObtinerii")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("GradeIdGrad")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdGrad")
                         .HasColumnType("int");
 
@@ -60,7 +60,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdGrad");
+                    b.HasIndex("GradeIdGrad");
 
                     b.HasIndex("MembruId");
 
@@ -114,9 +114,7 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Entities.Grade", "Grade")
                         .WithMany("GradeMembrii")
-                        .HasForeignKey("IdGrad")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GradeIdGrad");
 
                     b.HasOne("API.Entities.Membru", "Membru")
                         .WithMany("GradeMembrii")

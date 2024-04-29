@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace API.Entities
 {
@@ -31,10 +27,9 @@ namespace API.Entities
         public string Poza { get; set; }
 
         public int Varsta { get; set; }
+        
 
-        // nav prop for one-to-many
         [JsonIgnore]
         public ICollection<GradeMembrii> GradeMembrii {get; set;}
-
     }
 }

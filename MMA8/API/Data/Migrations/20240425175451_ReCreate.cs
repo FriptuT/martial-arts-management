@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace API.Migrations
+namespace API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class ReCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,7 +37,9 @@ namespace API.Migrations
                     Gen = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TipMembru = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NrLegitimatie = table.Column<int>(type: "int", nullable: false),
-                    Activ = table.Column<bool>(type: "bit", nullable: false)
+                    Activ = table.Column<bool>(type: "bit", nullable: false),
+                    Poza = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Varsta = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,17 +54,17 @@ namespace API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MembruId = table.Column<int>(type: "int", nullable: false),
                     IdGrad = table.Column<int>(type: "int", nullable: false),
-                    DataObtinerii = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataObtinerii = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    GradeIdGrad = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GradeMembrii", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GradeMembrii_Grade_IdGrad",
-                        column: x => x.IdGrad,
+                        name: "FK_GradeMembrii_Grade_GradeIdGrad",
+                        column: x => x.GradeIdGrad,
                         principalTable: "Grade",
-                        principalColumn: "IdGrad",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "IdGrad");
                     table.ForeignKey(
                         name: "FK_GradeMembrii_Membrii_MembruId",
                         column: x => x.MembruId,
@@ -72,9 +74,9 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GradeMembrii_IdGrad",
+                name: "IX_GradeMembrii_GradeIdGrad",
                 table: "GradeMembrii",
-                column: "IdGrad");
+                column: "GradeIdGrad");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GradeMembrii_MembruId",

@@ -18,24 +18,25 @@ namespace API.Data
         public DbSet<Grade> Grade { get; set; }
         public DbSet<GradeMembrii> GradeMembrii { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
 
-            // one-to-many relationship between Member and GradeMember
-            modelBuilder.Entity<Membru>()
-                .HasMany(m => m.GradeMembrii)
-                .WithOne(gm => gm.Membru)
-                .HasForeignKey(gm => gm.MembruId)
-                .IsRequired();
+        
 
-            //  one-to-many relationship between Grade and GradeMember
-            modelBuilder.Entity<Grade>()
-                .HasMany(g => g.GradeMembrii)
-                .WithOne(gm => gm.Grade)
-                .HasForeignKey(gm => gm.IdGrad)
-                .IsRequired();
-        }
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     base.OnModelCreating(modelBuilder);
+
+        //     modelBuilder.Entity<GradeMembrii>()
+        //         .HasMany(m => m.Grade)
+        //         .WithOne(gm => gm.Membru)
+        //         .HasForeignKey(gm => gm.MembruId)
+        //         .IsRequired();
+
+        //     modelBuilder.Entity<Grade>()
+        //         .HasMany(g => g.GradeMembrii)
+        //         .WithOne(gm => gm.Grade)
+        //         .HasForeignKey(gm => gm.IdGrad)
+        //         .IsRequired();
+        // }
 
     }
 }

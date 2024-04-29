@@ -1,5 +1,3 @@
-import { Grade } from "./grade";
-
 export interface Membru{
     membruId: number;
     email: string;
@@ -12,6 +10,5 @@ export interface Membru{
     activ: boolean;
     varsta: number;
     poza: string;
-    grad: Grade;
 }
 

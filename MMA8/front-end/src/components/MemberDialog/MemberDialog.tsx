@@ -1,43 +1,22 @@
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, MenuItem, TextField } from "@mui/material";
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField } from "@mui/material";
 import { Membru } from "../../app/models/membru";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch } from "../../store/store";
 import { memberActions } from "../../store/memberSlice";
-import { useEffect, useState } from "react";
-import agent from "../../app/connApi/agent";
-import { Grade } from "../../app/models/grade";
+
+// https://developer.wordpress.org/coding-standards/wordpress-coding-standards/javascript/
 
 interface MemberDialogProps {
     open: boolean;
     currentMember: Membru;
     handleClose: () => void;
-    handleSave: (currentMember: Membru, selectedGradeId: string) => void;
+    handleSave: (currentMember: Membru) => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     isEditing: boolean;
-    grad: Grade;
 }
 
-export default function MemberDialog({ open, handleClose, handleChange, handleSave, isEditing, currentMember, grad }: MemberDialogProps) {
+export default function MemberDialog({ open, handleClose, handleChange, handleSave, isEditing, currentMember }: MemberDialogProps) {
 
     const dispatch = useAppDispatch();
-
-    const [selectedGradeId, setSelectedGradeId] = useState('');
-    const grades = useAppSelector((state) => state.member.grades);
-
-    useEffect(() => {
-        const fetchGrades = async () => {
-            const fetchedGrades = await agent.Grade.listAll();
-            console.log("centuri: ",fetchedGrades);
-            dispatch(memberActions.setGrades(fetchedGrades));
-        }
-
-        fetchGrades();
-    }, []);
-
-    const handleGradeChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-        const {value} = event.target;
-        setSelectedGradeId(value as string);
-    };
-
 
     return (
         <Dialog open={open} onClose={handleClose}>
@@ -125,23 +104,6 @@ export default function MemberDialog({ open, handleClose, handleChange, handleSa
                     onChange={handleChange}
                 />
 
-                <TextField
-                    select
-                    label="Grade"
-                    name="idGrad"
-                    value={selectedGradeId}
-                    onChange={handleGradeChange}            
-                    fullWidth
-                >
-                    {grades.map((grade: Grade) => (
-                        <MenuItem key={grade.idGrad} value={String(grade.idGrad)}>
-                            {grade.numeGrad}
-                        </MenuItem>
-                    ))}
-                </TextField>
-
-
-                {/* Add other fields here */}
                 <FormControlLabel
                     control={
                         <Checkbox
@@ -155,7 +117,7 @@ export default function MemberDialog({ open, handleClose, handleChange, handleSa
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={() => handleSave(currentMember, selectedGradeId)}>{isEditing ? 'Save Changes' : 'Add Member'}</Button>
+                <Button onClick={() => handleSave(currentMember)}>{isEditing ? 'Save Changes' : 'Add Member'}</Button>
             </DialogActions>
         </Dialog>
     );

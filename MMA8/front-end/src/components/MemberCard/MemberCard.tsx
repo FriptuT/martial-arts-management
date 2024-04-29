@@ -1,5 +1,7 @@
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import { Membru } from "../../app/models/membru";
+import './card.css'
+import { Link } from "react-router-dom";
 
 interface MemberCardProps {
     member: Membru;
@@ -7,10 +9,9 @@ interface MemberCardProps {
     onDelete: (member: Membru) => void;
 }
 
+// https://developer.wordpress.org/coding-standards/wordpress-coding-standards/javascript/
 
 export default function MemberCard({ member, onEdit, onDelete }: MemberCardProps) {
-
-    
 
     return (
         <Card sx={{ display: 'flex', marginBottom: 2 }}>
@@ -30,17 +31,15 @@ export default function MemberCard({ member, onEdit, onDelete }: MemberCardProps
                 <Typography variant="subtitle1" color="text.secondary" component="div">
                     Active: {member.activ ? 'Yes' : 'No'}
                 </Typography>
-                <Typography variant="subtitle1" color="text.secondary" component="div">
-                    Centura:
-                </Typography>
             </CardContent>
 
             <CardActions>
                 <Button color="primary" onClick={() => onEdit(member)}>Edit</Button>
                 <Button color="secondary" onClick={() => onDelete(member)}>Delete</Button>
+                <Button component={Link} to={`/members/${member.membruId}`} size="small">GRADES</Button>
             </CardActions>
 
-            
+
 
         </Card>
     );

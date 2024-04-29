@@ -13,15 +13,10 @@ const initialMemberState = {
         nrLegitimatie: 0,
         activ: false,
         varsta: 0,
-        poza: '',
-        grad:{
-            idGrad: 0,
-            numeGrad: ''
-        }
+        poza: ''
     },
     openDialog: false,
-    isEditing: false,
-    grades: []
+    isEditing: false
 };
 
 
@@ -41,12 +36,6 @@ const memberSlice = createSlice({
         setIsEditing: (state, action) => {
             state.isEditing = action.payload;
         },
-        setGrades: (state, action) => {
-            state.grades = action.payload;
-        },
-        setGrad: (state,action) => {
-            state.currentMember.grad = action.payload;
-        }
     },
 });
 

@@ -15,7 +15,7 @@ const requests = {
     delete: (url: string) => axios.delete(url).then(responseBody)
 };
 
-const Grade = {
+const Grades = {
     listAll: () => requests.get("grade"),
     listOne: (id: number) => requests.get(`grade/${id}`),
     addGrad: (grad: Grade) => requests.post('grade', grad),
@@ -25,7 +25,7 @@ const Grade = {
 const GradeMembrii = {
     getAll: () => requests.get("GradeMembrii"),
     getOne: (id: number) => requests.get(`GradeMembrii/${id}`),
-    addGradMembru: (gradMembru: gradeMembru) => requests.post('GradeMembrii', gradMembru),
+    addGradMembru: (gradMembru: gradeMembru) => requests.post("GradeMembrii", gradMembru),
     editGradMembru: (id: number, gradMembru: gradeMembru) => requests.put(`GradeMembrii/${id}`, gradMembru),
     deleteGradMembru: (id: number) => requests.delete(`GradeMembrii/${id}`)
 };
@@ -44,7 +44,7 @@ const Upload = {
 
 
 const agent = {
-    Grade,
+    Grades,
     Membrii,
     GradeMembrii,
     Upload
