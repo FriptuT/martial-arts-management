@@ -4904,23 +4904,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\teodo\\.nuget\\packages\\": {},
+    "C:\\Users\\Friptu Teodor\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\API.csproj",
+      "projectUniqueName": "M:\\LICENTA-MMA\\martial-arts-management\\MMA8\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\teodo\\.nuget\\packages\\",
-      "outputPath": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\obj\\",
+      "projectPath": "M:\\LICENTA-MMA\\martial-arts-management\\MMA8\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\Friptu Teodor\\.nuget\\packages\\",
+      "outputPath": "M:\\LICENTA-MMA\\martial-arts-management\\MMA8\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\teodo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Friptu Teodor\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4942,11 +4942,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -5005,7 +5000,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
