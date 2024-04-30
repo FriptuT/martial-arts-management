@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "I3w11+0g1lRGEcE/LTa5Ov11WoGbo3kXy7DMEqb909w=",
+  "Hash": "nUy9abDMElRl7AO6jEA3J5wTbvQaFjWhQbXMyf+z40E=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "API\\wwwroot",
       "Source": "API",
-      "ContentRoot": "M:\\LICENTA-MMA\\martial-arts-management\\MMA8\\API\\wwwroot\\",
+      "ContentRoot": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "M:\\LICENTA-MMA\\martial-arts-management\\MMA8\\API\\wwwroot\\uploads\\teodor.jpg",
+      "Identity": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\wwwroot\\uploads\\teodor.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
-      "ContentRoot": "M:\\LICENTA-MMA\\martial-arts-management\\MMA8\\API\\wwwroot\\",
+      "ContentRoot": "M:\\GitHub Repositories\\LICENTA\\martial-arts-management\\MMA8\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "RelativePath": "uploads/teodor.jpg",
       "AssetKind": "All",

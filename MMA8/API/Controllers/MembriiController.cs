@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedList<Membru>>> GetMembrii(MemberParams memberParams)
+        public async Task<ActionResult<PagedList<Membru>>> GetMembrii([FromQuery]MemberParams memberParams)
         {
             var query = context.Membrii
             .Sort(memberParams.OrderBy)
@@ -33,10 +33,10 @@ namespace API.Controllers
 
             var members = await PagedList<Membru>.ToPagedList(query, memberParams.PageNumber, memberParams.PageSize);
 
-            Response.Headers.Append("Pagination", JsonSerializer.Serialize(members.MetaData));
+            Response.AddPaginationHeader(members.MetaData);
+
 
             return members;
-
         }
 
         [HttpGet("{id}")]

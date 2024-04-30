@@ -1,4 +1,4 @@
-export interface Membru{
+export interface Membru {
     membruId: number;
     email: string;
     parola: string;
@@ -12,3 +12,13 @@ export interface Membru{
     poza: string;
 }
 
+
+
+
+
+export interface MembruParams {
+    orderBy: string;
+    searchTerm?: string;
+    pageNumber: number;
+    pageSize: number;
+}
