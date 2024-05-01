@@ -1,11 +1,27 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Membru } from "../models/membru";
 import { Grade } from "../models/grade";
 import { gradeMembru } from "../models/gradeMembru";
+import { PaginatetResponse } from "../models/pagination";
 
 axios.defaults.baseURL = "http://localhost:5254/api/";
 
 const responseBody = (response: AxiosResponse) => response.data;
+
+axios.interceptors.response.use(
+    async response => {
+        const pagination = response.headers['pagination'];
+        if (pagination) {
+            response.data = new PaginatetResponse(response.data, JSON.parse(pagination));
+            return response;
+        }
+        return response;
+    },
+    (error: AxiosError) => {
+
+        return Promise.reject(error.response);
+    }
+);
 
 
 const requests = {

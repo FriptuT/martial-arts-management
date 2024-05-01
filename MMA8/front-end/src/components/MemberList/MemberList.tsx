@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormControlLabel, Grid, Pagination, Paper, Radio, RadioGroup, Typography } from "@mui/material";
+import { Box, Button, Grid, Pagination, Paper, Typography } from "@mui/material";
 import { useEffect } from "react";
 import agent from "../../app/connApi/agent";
 import { Membru } from "../../app/models/membru";
@@ -8,6 +8,8 @@ import MemberCard from "../MemberCard/MemberCard";
 import MemberDialog from "../MemberDialog/MemberDialog";
 import { gradeMembriiActions } from "../../store/gradeMembriiSlice";
 import MembruSearch from "./MembruSearch";
+import RadioButtonGroup from "./RadioButtonGroup";
+import AppPagination from "./AppPagination";
 
 
 const sortOptions = [
@@ -23,7 +25,7 @@ export default function MemberList() {
   const currentMember = useAppSelector((state) => state.member.currentMember);
   const open = useAppSelector((state) => state.member.openDialog);
   const isEditing = useAppSelector((state) => state.member.isEditing);
-  const { membersLoaded } = useAppSelector(state => state.member);
+  const { membersLoaded, membruParams, metaData } = useAppSelector(state => state.member);
   const members = useAppSelector(memberSelectors.selectAll);
 
 
@@ -160,14 +162,11 @@ export default function MemberList() {
           <MembruSearch />
         </Paper>
         <Paper sx={{ mb: 2, p: 2 }}>
-          <FormControl>
-            <RadioGroup>
-              {sortOptions.map(({ value, label }) => (
-                <FormControlLabel value={value} control={<Radio />} label={label} />
-
-              ))}
-            </RadioGroup>
-          </FormControl>
+          <RadioButtonGroup 
+           selectedValue={membruParams.orderBy}
+           options={sortOptions}
+           onChange={(e) => dispatch(memberActions.setMembruParams({orderBy: e.target.value}))}
+          />
         </Paper>
 
       </Grid>
@@ -193,17 +192,10 @@ export default function MemberList() {
 
       <Grid item xs={3} />
       <Grid item xs={9}>
-        <Box display='flex' justifyContent='space-between' alignItems={'center'}>
-          <Typography>
-            Displaying 1-6 of 22 items
-          </Typography>
-          <Pagination
-            color="secondary"
-            size="large"
-            count={10}
-            page={2}
-          />
-        </Box>
+        <AppPagination 
+          metaData={metaData}
+          onPageChange={(page:number) => dispatch(memberActions.setMembruParams({pageNumber: page}))}
+        />
       </Grid>
 
 

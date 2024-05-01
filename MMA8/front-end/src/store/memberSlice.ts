@@ -2,6 +2,7 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/too
 import { Membru, MembruParams } from '../app/models/membru';
 import agent from '../app/connApi/agent';
 import { RootState } from './store';
+import { MetaData } from '../app/models/pagination';
 
 
 interface MemberState {
@@ -12,6 +13,7 @@ interface MemberState {
     membruParams: MembruParams;
     membersLoaded: boolean;
     status: string;
+    metaData: MetaData;
 }
 
 
@@ -30,12 +32,14 @@ function getAxiosParams(membruParams: MembruParams) {
     return params;
 }
 
-export const fetchMembersAsync = createAsyncThunk<Membru[], void, {state: RootState}>(
+export const fetchMembersAsync = createAsyncThunk<Membru[], void, { state: RootState }>(
     'member/fetchMembersAsync',
     async (_, thunkAPI) => {
         const params = getAxiosParams(thunkAPI.getState().member.membruParams);
         try {
-            return await agent.Membrii.getAll(params);
+            const response = await agent.Membrii.getAll(params);
+            thunkAPI.dispatch(memberActions.setMetaData(response.metaData));
+            return response.items;
         } catch (error: any) {
             return thunkAPI.rejectWithValue({ error: error.data })
         }
@@ -94,7 +98,13 @@ export const memberSlice = createSlice({
         isEditing: false,
         membruParams: initParams(),
         membersLoaded: false,
-        status: 'idle'
+        status: 'idle',
+        metaData: {
+            currentPage: 0,
+            totalPages: 0,
+            pageSize: 0,
+            totalCount: 0
+        }
     }),
     reducers: {
         setMembers: (state, action) => {
@@ -115,6 +125,9 @@ export const memberSlice = createSlice({
         },
         resetMembruParams: (state) => {
             state.membruParams = initParams();
+        },
+        setMetaData: (state, action) => {
+            state.metaData = action.payload;
         }
     },
     extraReducers: (builder => {
