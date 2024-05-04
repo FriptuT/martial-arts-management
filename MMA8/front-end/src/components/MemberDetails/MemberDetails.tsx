@@ -30,6 +30,7 @@ export default function MemberDetails() {
             console.log('Error loading grades:', error);
         }
     }
+    
     const getGradeById = async (id: any) => {
         try {
             const fetchedGrade = await agent.Grades.listOne(id);

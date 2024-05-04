@@ -9,7 +9,6 @@ interface MemberCardProps {
     onDelete: (member: Membru) => void;
 }
 
-// https://developer.wordpress.org/coding-standards/wordpress-coding-standards/javascript/
 
 export default function MemberCard({ member, onEdit, onDelete }: MemberCardProps) {
 
