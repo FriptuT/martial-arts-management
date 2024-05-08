@@ -5,10 +5,12 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+interface Props{
+    darkMode: boolean;
+}
 
 
-
-export default function Popup({ darkMode }) {
+export default function Popup({ darkMode }: Props) {
     const [showPopup, setShowPopup] = useState(false);
     const textPopup = "Let the hacking begin! *_* ";
 
