@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import memberSlice from "./memberSlice";
 import gradeMembriiSlice from "./gradeMembriiSlice";
+import { accountSlice } from "./accountSlice";
 
 const store = configureStore({
     reducer: {
         member: memberSlice,
-        gradeMembrii: gradeMembriiSlice
+        gradeMembrii: gradeMembriiSlice,
+        account: accountSlice.reducer
     }
 })
 

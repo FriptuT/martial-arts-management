@@ -3,10 +3,19 @@ import { Membru } from "../models/membru";
 import { Grade } from "../models/grade";
 import { gradeMembru } from "../models/gradeMembru";
 import { PaginatetResponse } from "../models/pagination";
+import store from "../../store/store";
+import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "http://localhost:5254/api/";
 
 const responseBody = (response: AxiosResponse) => response.data;
+
+
+axios.interceptors.request.use(config => {
+    const token = store.getState().account.user?.token;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 axios.interceptors.response.use(
     async response => {
@@ -18,6 +27,20 @@ axios.interceptors.response.use(
         return response;
     },
     (error: AxiosError) => {
+        const {data, status} = error.response as AxiosResponse;
+        switch (status) {
+            case 400:
+                toast.error(data.title);
+                break;
+            case 401:
+                toast.error(data.title);
+                break;
+            case 500:
+                toast.error(data.title);
+                break;
+            default:
+                break;
+        }
 
         return Promise.reject(error.response);
     }
@@ -59,11 +82,18 @@ const Upload = {
 };
 
 
+const Account = {
+    login: (values: any) => requests.post('account/login', values),
+    register: (values: any) => requests.post('account/register', values),
+    currentUser: () => requests.get('account/currentUser'),
+}
+
 const agent = {
     Grades,
     Membrii,
     GradeMembrii,
-    Upload
+    Upload,
+    Account
 }
 
 export default agent;

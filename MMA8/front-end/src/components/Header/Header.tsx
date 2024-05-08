@@ -1,6 +1,8 @@
 import { AppBar, Box, ListItem, Switch, Toolbar, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import './styles.css';
+import { useAppSelector } from "../../store/store";
+import SignedInMenu from "./SignedInMenu";
 
 const midLinks = [
     { title: 'members', path: '/members' },
@@ -23,10 +25,15 @@ const navStyles = {
     },
 };
 
+interface Props {
+    darkMode: boolean;
+    handleThemeChange: () => void;
+}
 
 
+export default function Header({ darkMode, handleThemeChange }: Props) {
 
-export default function Header({ darkMode, handleThemeChange }) {
+    const { user } = useAppSelector(state => state.account);
 
     return (
         <>
@@ -39,7 +46,7 @@ export default function Header({ darkMode, handleThemeChange }) {
                     }}
                 >
                     <Box display='flex' alignItems='center'>
-                        <Typography variant="h6" component={NavLink} to="/" sx={ navStyles }>
+                        <Typography variant="h6" component={NavLink} to="/" sx={navStyles}>
                             MMA Forces
                         </Typography>
                         <Switch checked={darkMode} onChange={handleThemeChange} />
@@ -59,18 +66,23 @@ export default function Header({ darkMode, handleThemeChange }) {
                     </ul>
 
                     <Box>
-                        <ul className="right">
-                            {rightLinks.map((link) => (
-                                <ListItem
-                                    component={NavLink}
-                                    to={link.path}
-                                    key={link.path}
-                                    sx={navStyles}
-                                >
-                                    {link.title.toUpperCase()}
-                                </ListItem>
-                            ))}
-                        </ul>
+                        {user ? (
+                            <SignedInMenu />
+                        ) : (
+                            <ul className="right">
+                                {rightLinks.map((link) => (
+                                    <ListItem
+                                        component={NavLink}
+                                        to={link.path}
+                                        key={link.path}
+                                        sx={navStyles}
+                                    >
+                                        {link.title.toUpperCase()}
+                                    </ListItem>
+                                ))}
+                            </ul>
+                        )}
+
                     </Box>
 
                 </Toolbar>
