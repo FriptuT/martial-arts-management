@@ -27,6 +27,7 @@ export default function MemberList() {
   const isEditing = useAppSelector((state) => state.member.isEditing);
   const { membersLoaded, membruParams, metaData } = useAppSelector(state => state.member);
   const members = useAppSelector(memberSelectors.selectAll);
+  const user = useAppSelector(state => state.account.user);
 
 
 
@@ -51,7 +52,7 @@ export default function MemberList() {
     }
   }
 
-  
+
 
   // functie pentru incarcarea membrilor
   // const loadMembers = async () => {
@@ -162,19 +163,21 @@ export default function MemberList() {
           <MembruSearch />
         </Paper>
         <Paper sx={{ mb: 2, p: 2 }}>
-          <RadioButtonGroup 
-           selectedValue={membruParams.orderBy}
-           options={sortOptions}
-           onChange={(e) => dispatch(memberActions.setMembruParams({orderBy: e.target.value}))}
+          <RadioButtonGroup
+            selectedValue={membruParams.orderBy}
+            options={sortOptions}
+            onChange={(e) => dispatch(memberActions.setMembruParams({ orderBy: e.target.value }))}
           />
         </Paper>
 
       </Grid>
 
       <Grid item xs={9}>
-        <Button variant="contained" color="primary" onClick={() => handleOpen()}>
-          Add Member
-        </Button>
+        {user?.roles?.includes('Admin') &&
+          <Button variant="contained" color="primary" onClick={() => handleOpen()}>
+            Add Member
+          </Button>
+        }
 
         <Grid container spacing={1}>
           {members.map((member: Membru) => (
@@ -192,9 +195,9 @@ export default function MemberList() {
 
       <Grid item xs={3} />
       <Grid item xs={9}>
-        <AppPagination 
+        <AppPagination
           metaData={metaData}
-          onPageChange={(page:number) => dispatch(memberActions.setMembruParams({pageNumber: page}))}
+          onPageChange={(page: number) => dispatch(memberActions.setMembruParams({ pageNumber: page }))}
         />
       </Grid>
 

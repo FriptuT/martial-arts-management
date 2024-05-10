@@ -21,6 +21,7 @@ export default function MemberDetails() {
     const grade = useAppSelector((state) => state.gradeMembrii.grades);
     const currentGrad = useAppSelector((state) => state.gradeMembrii.currentGrad);
     const members = useAppSelector((state) => state.member.members);
+    const user = useAppSelector(state => state.account.user);
 
     const getMemberById = async (id: any) => {
         try {
@@ -30,7 +31,7 @@ export default function MemberDetails() {
             console.log('Error loading grades:', error);
         }
     }
-    
+
     const getGradeById = async (id: any) => {
         try {
             const fetchedGrade = await agent.Grades.listOne(id);
@@ -176,10 +177,12 @@ export default function MemberDetails() {
     return (
         <Container>
             <Typography variant="h3" color='primary'>{member ? member.nume : 'waiting for'}</Typography>
-            {/* <hr color='blue' /> */}
-            <Button variant="contained" color="primary" onClick={() => handleOpen()}>
-                Add Grade
-            </Button>
+
+            {user?.roles?.includes('Admin') &&
+                <Button variant="contained" color="primary" onClick={() => handleOpen()}>
+                    Add Grade
+                </Button>
+            }
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>

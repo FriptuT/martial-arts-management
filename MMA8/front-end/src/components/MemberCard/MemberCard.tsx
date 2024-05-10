@@ -2,6 +2,7 @@ import { Button, Card, CardActions, CardContent, Typography } from "@mui/materia
 import { Membru } from "../../app/models/membru";
 import './card.css'
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../store/store";
 
 interface MemberCardProps {
     member: Membru;
@@ -11,6 +12,7 @@ interface MemberCardProps {
 
 
 export default function MemberCard({ member, onEdit, onDelete }: MemberCardProps) {
+    const user = useAppSelector(state => state.account.user);
 
     return (
         <Card sx={{ display: 'flex', marginBottom: 2 }}>
@@ -33,8 +35,12 @@ export default function MemberCard({ member, onEdit, onDelete }: MemberCardProps
             </CardContent>
 
             <CardActions>
-                <Button color="primary" onClick={() => onEdit(member)}>Edit</Button>
-                <Button color="secondary" onClick={() => onDelete(member)}>Delete</Button>
+                {user?.roles?.includes('Admin') &&
+                    <Button color="primary" onClick={() => onEdit(member)}>Edit</Button>
+                }
+                {user?.roles?.includes('Admin') &&
+                    <Button color="secondary" onClick={() => onDelete(member)}>Delete</Button>
+                }
                 <Button component={Link} to={`/members/${member.membruId}`} size="small">GRADES</Button>
             </CardActions>
 

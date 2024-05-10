@@ -5,6 +5,7 @@ import MemberDetails from "../components/MemberDetails/MemberDetails";
 import MemberList from "../components/MemberList/MemberList";
 import Login from "../components/account/Login";
 import Register from "../components/account/Register";
+import RequireAuth from "../components/account/RequireAuth";
 
 
 export const router = createBrowserRouter([
@@ -12,6 +13,18 @@ export const router = createBrowserRouter([
         path: '/',
         element: <App />,
         children: [
+            // authenticated routes
+            {
+                element: <RequireAuth />, children: [
+                    {path: '', element: <HomePage />}
+                ]
+            },
+            // admin routes
+            {
+                element: <RequireAuth roles={['Admin','Member']} />, children: [
+                    {path: 'members', element: <MemberList />}
+                ]
+            },
             {path: '', element: <HomePage />},
             {path: 'members', element: <MemberList />},
             {path: 'members/:id', element: <MemberDetails />},

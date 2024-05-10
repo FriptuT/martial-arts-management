@@ -1,10 +1,11 @@
 import { Button, TableCell, TableRow } from "@mui/material";
 import { Grade } from "../../app/models/grade";
 import { gradeMembru } from "../../app/models/gradeMembru";
+import { useAppSelector } from "../../store/store";
 
-interface GradeTableProps{
+interface GradeTableProps {
     gradMembru: gradeMembru;
-    findNumeGradById(idMembru: number, idGrad: number, grade: Grade[], gradeMembrii: gradeMembru[] ): string;
+    findNumeGradById(idMembru: number, idGrad: number, grade: Grade[], gradeMembrii: gradeMembru[]): string;
     grade: Grade[];
     gradeMembrii: gradeMembru[];
     onEdit: (gradMembru: gradeMembru) => void;
@@ -12,7 +13,9 @@ interface GradeTableProps{
 }
 
 export default function GradeTable({ gradMembru, findNumeGradById, grade, gradeMembrii, onEdit, onDelete }: GradeTableProps) {
-    
+
+    const user = useAppSelector(state => state.account.user);
+
     return (
         <>
             <TableRow
@@ -24,10 +27,14 @@ export default function GradeTable({ gradMembru, findNumeGradById, grade, gradeM
                 </TableCell>
                 <TableCell align="right">{gradMembru.dataObtinerii}</TableCell>
                 <TableCell align="right">
-                    <Button color='primary' onClick={() => onEdit(gradMembru)} >Edit</Button>
+                    {user?.roles?.includes('Admin') &&
+                        <Button color='primary' onClick={() => onEdit(gradMembru)} >Edit</Button>
+                    }
                 </TableCell>
                 <TableCell align="right">
-                    <Button color='secondary' onClick={() => onDelete(gradMembru)}>Delete</Button>
+                    {user?.roles?.includes('Admin') && 
+                        <Button color='secondary' onClick={() => onDelete(gradMembru)}>Delete</Button>
+                    }
                 </TableCell>
 
             </TableRow>
