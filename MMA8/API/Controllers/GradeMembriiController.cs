@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.DTOs;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,21 @@ namespace API.Controllers
             return grade;
         }
 
+        [HttpGet("table/{membruId}")]
+        public async Task<ActionResult<GradeMembrii>> GetTableData(int membruId)
+        {
+            var grades = await (from gm in context.GradeMembrii 
+                               join g in context.Grade on gm.IdGrad equals g.IdGrad
+                               where gm.MembruId == membruId
+                                select new GradeDto
+                                {
+                                    NumeGrad = g.NumeGrad,
+                                    DataObtinerii = gm.DataObtinerii
+                                }).ToListAsync();
+
+            return Ok(grades);
+        }
+
         // POST: api/GradeMembrii
         [HttpPost]
         public async Task<ActionResult<GradeMembrii>> PostGradeMembrii(GradeMembrii gradeM)
@@ -48,7 +64,21 @@ namespace API.Controllers
             context.GradeMembrii.Add(gradeM);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetGradMembrii), new { id = gradeM.Id }, gradeM);
+            var result = await (from gm in context.GradeMembrii
+                            join g in context.Grade on gm.IdGrad equals g.IdGrad
+                            where gm.Id == gradeM.Id
+                            select new
+                            {  
+                                g.NumeGrad,
+                                gm.DataObtinerii
+                            }).FirstOrDefaultAsync();
+            
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return CreatedAtAction(nameof(GetGradMembrii), new { id = gradeM.Id }, result);
         }
 
         // PUT: api/GradeMembrii/3

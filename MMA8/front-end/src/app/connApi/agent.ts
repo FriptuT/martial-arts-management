@@ -78,7 +78,8 @@ const GradeMembrii = {
     getOne: (id: number) => requests.get(`GradeMembrii/${id}`),
     addGradMembru: (gradMembru: gradeMembru) => requests.post("GradeMembrii", gradMembru),
     editGradMembru: (id: number, gradMembru: gradeMembru) => requests.put(`GradeMembrii/${id}`, gradMembru),
-    deleteGradMembru: (id: number) => requests.delete(`GradeMembrii/${id}`)
+    deleteGradMembru: (id: number) => requests.delete(`GradeMembrii/${id}`),
+    getTableData: (membruId: number) => requests.get(`GradeMembrii/table/${membruId}`)
 };
 
 const Membrii = {

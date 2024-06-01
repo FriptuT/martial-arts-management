@@ -23,6 +23,8 @@ export default function MemberDetails() {
     const members = useAppSelector((state) => state.member.members);
     const user = useAppSelector(state => state.account.user);
 
+
+
     const getMemberById = async (id: any) => {
         try {
             const fetchedMember = await agent.Membrii.getOne(id);
@@ -76,9 +78,9 @@ export default function MemberDetails() {
     const handleSave = async (currentGradMember: gradeMembru) => {
         try {
             if (isEditing) {
-                await agent.GradeMembrii.editGradMembru(currentGradMember.id, currentGradMember);
+               await agent.GradeMembrii.editGradMembru(currentGradMember.id, currentGradMember);
             } else {
-                await agent.GradeMembrii.addGradMembru(currentGradMember);
+               await agent.GradeMembrii.addGradMembru(currentGradMember);
             }
 
             await getGradeMembrii();

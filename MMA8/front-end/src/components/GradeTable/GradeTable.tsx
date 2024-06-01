@@ -16,16 +16,22 @@ export default function GradeTable({ gradMembru, findNumeGradById, grade, gradeM
 
     const user = useAppSelector(state => state.account.user);
 
+
     return (
         <>
             <TableRow
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                key={gradMembru.id}
+                // key={gradMembru.id}
             >
                 <TableCell component="th" scope="row">
                     {findNumeGradById(gradMembru.membruId, gradMembru.idGrad, grade, gradeMembrii)}
+                    {/* {afisareGrad.numeGrad} */}
+                    {/* {tableData?.numeGrad} */}
                 </TableCell>
-                <TableCell align="right">{gradMembru.dataObtinerii}</TableCell>
+                <TableCell align="right">
+                    {gradMembru.dataObtinerii}
+                    {/* {tableData?.dataObtinerii} */}
+                </TableCell>
                 <TableCell align="right">
                     {user?.roles?.includes('Admin') &&
                         <Button color='primary' onClick={() => onEdit(gradMembru)} >Edit</Button>
