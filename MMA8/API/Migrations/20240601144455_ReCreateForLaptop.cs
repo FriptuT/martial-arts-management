@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityAdded : Migration
+    public partial class ReCreateForLaptop : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,6 +50,41 @@ namespace API.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grade",
+                columns: table => new
+                {
+                    IdGrad = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NumeGrad = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grade", x => x.IdGrad);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Membrii",
+                columns: table => new
+                {
+                    MembruId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Parola = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nume = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DataNasterii = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TipMembru = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NrLegitimatie = table.Column<int>(type: "int", nullable: false),
+                    Activ = table.Column<bool>(type: "bit", nullable: false),
+                    Poza = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Varsta = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Membrii", x => x.MembruId);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,13 +193,40 @@ namespace API.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GradeMembrii",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MembruId = table.Column<int>(type: "int", nullable: false),
+                    IdGrad = table.Column<int>(type: "int", nullable: false),
+                    DataObtinerii = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    GradeIdGrad = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GradeMembrii", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GradeMembrii_Grade_GradeIdGrad",
+                        column: x => x.GradeIdGrad,
+                        principalTable: "Grade",
+                        principalColumn: "IdGrad");
+                    table.ForeignKey(
+                        name: "FK_GradeMembrii_Membrii_MembruId",
+                        column: x => x.MembruId,
+                        principalTable: "Membrii",
+                        principalColumn: "MembruId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6283a51d-4eaa-4d8e-af23-55c4ded6e298", null, "Member", "MEMBER" },
-                    { "8dcaed07-4378-432b-9f39-67019cce3ead", null, "Admin", "ADMIN" }
+                    { "c97e50a2-c913-4c47-b8aa-47ad20a91fec", null, "Member", "MEMBER" },
+                    { "d950620f-1dc3-4d52-bebb-7577d70287e8", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -205,6 +267,16 @@ namespace API.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GradeMembrii_GradeIdGrad",
+                table: "GradeMembrii",
+                column: "GradeIdGrad");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GradeMembrii_MembruId",
+                table: "GradeMembrii",
+                column: "MembruId");
         }
 
         /// <inheritdoc />
@@ -226,10 +298,19 @@ namespace API.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "GradeMembrii");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Grade");
+
+            migrationBuilder.DropTable(
+                name: "Membrii");
         }
     }
 }

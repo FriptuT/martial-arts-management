@@ -40,12 +40,28 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.GradeMembrii", b =>
                 {
+<<<<<<< HEAD
+=======
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataObtinerii")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("GradeIdGrad")
+                        .HasColumnType("int");
+
+>>>>>>> bb729c372c221569a1ca5bafbf029a86c7250688
                     b.Property<int>("IdGrad")
                         .HasColumnType("int");
 
                     b.Property<int>("MembruId")
                         .HasColumnType("int");
 
+<<<<<<< HEAD
                     b.Property<DateTime>("DataObtinerii")
                         .HasColumnType("datetime2");
 
@@ -53,6 +69,11 @@ namespace API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("IdGrad", "MembruId");
+=======
+                    b.HasKey("Id");
+
+                    b.HasIndex("GradeIdGrad");
+>>>>>>> bb729c372c221569a1ca5bafbf029a86c7250688
 
                     b.HasIndex("MembruId");
 
@@ -196,13 +217,21 @@ namespace API.Migrations
                     b.HasData(
                         new
                         {
+<<<<<<< HEAD
                             Id = "d2186d4b-7305-4a20-8690-865e7ac8841e",
+=======
+                            Id = "c97e50a2-c913-4c47-b8aa-47ad20a91fec",
+>>>>>>> bb729c372c221569a1ca5bafbf029a86c7250688
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
+<<<<<<< HEAD
                             Id = "5aa2aaff-fd82-4482-af94-384a727d50e3",
+=======
+                            Id = "d950620f-1dc3-4d52-bebb-7577d70287e8",
+>>>>>>> bb729c372c221569a1ca5bafbf029a86c7250688
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -318,9 +347,13 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Entities.Grade", "Grade")
                         .WithMany("GradeMembrii")
+<<<<<<< HEAD
                         .HasForeignKey("IdGrad")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+=======
+                        .HasForeignKey("GradeIdGrad");
+>>>>>>> bb729c372c221569a1ca5bafbf029a86c7250688
 
                     b.HasOne("API.Entities.Membru", "Membru")
                         .WithMany("GradeMembrii")

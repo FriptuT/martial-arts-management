@@ -497,3 +497,10 @@ M:\GitHub Repositories\LICENTA\martial-arts-management\MMA8\API\bin\Debug\net8.0
 M:\GitHub Repositories\LICENTA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 M:\GitHub Repositories\LICENTA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 M:\GitHub Repositories\LICENTA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+M:\LICENTA-MMA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+M:\LICENTA-MMA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+M:\LICENTA-MMA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+M:\LICENTA-MMA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+M:\LICENTA-MMA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+M:\LICENTA-MMA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+M:\LICENTA-MMA\martial-arts-management\MMA8\API\bin\Debug\net8.0\Microsoft.Extensions.Options.dll

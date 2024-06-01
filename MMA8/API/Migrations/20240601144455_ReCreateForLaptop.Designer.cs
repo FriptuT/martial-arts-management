@@ -4,16 +4,19 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20240601144455_ReCreateForLaptop")]
+    partial class ReCreateForLaptop
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,13 +207,13 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6283a51d-4eaa-4d8e-af23-55c4ded6e298",
+                            Id = "c97e50a2-c913-4c47-b8aa-47ad20a91fec",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "8dcaed07-4378-432b-9f39-67019cce3ead",
+                            Id = "d950620f-1dc3-4d52-bebb-7577d70287e8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
